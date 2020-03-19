@@ -6,11 +6,11 @@ plugins {
 repositories {
     mavenLocal()
     maven {
-        url = 'https://jitpack.io/'
+        url 'https://jitpack.io/'
     }
 
     maven {
-        url = 'https://repo.codemc.io/repository/nms/'
+        url 'https://repo.codemc.io/repository/nms/'
     }
 
     mavenCentral()
