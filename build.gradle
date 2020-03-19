@@ -10,7 +10,7 @@ repositories {
     }
 
     maven {
-        url 'https://repo.codemc.io/repository/nms/'
+        url 'https://repo.codemc.io/repository/nms-local/'
     }
 
     mavenCentral()
