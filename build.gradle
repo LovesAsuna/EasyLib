@@ -12,6 +12,8 @@ repositories {
     maven {
         url = 'https://repo.codemc.io/repository/nms/'
     }
+
+    mavenCentral()
 }
 
 shadowJar {
