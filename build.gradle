@@ -21,7 +21,7 @@ shadowJar {
     configurations = [project.configurations.compile]
 }
 
-defaultTasks("shadowjar")
+defaultTasks("copyFile")
 
 dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
@@ -42,13 +42,11 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add('-Xlint:unchecked')
 }
 
-task copyFile(type: Copy) {
-    doLast {
-        from('build/libs/')
-        into('E:/work/1.15.2test/plugins/')
-        include('PluginCore*.jar')
-        rename {
-            "PluginCore.jar"
-        }
+task copyFile(type: Copy, dependsOn: shadowJar) {
+    from('build/libs/')
+    into('E:/work/1.15.2test/plugins/')
+    include('PluginCore*.jar')
+    rename {
+        "PluginCore.jar"
     }
 }
