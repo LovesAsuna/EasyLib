@@ -1,0 +1,100 @@
+package org.sct.plugincore;
+
+import com.google.common.collect.Lists;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.sct.plugincore.data.CoreData;
+import org.sct.plugincore.manager.ListenerManager;
+import org.sct.plugincore.util.function.MysqlUtil;
+import org.sct.plugincore.util.function.SQLiteUtil;
+
+import java.io.File;
+import java.util.List;
+
+/**
+ * @author LovesAsuna
+ * @date 2020/2/15 20:04
+ */
+
+public class PluginCore extends JavaPlugin {
+
+    private static JavaPlugin instance;
+    @Override
+    public void onEnable() {
+        instance = this;
+        saveDefaultConfig();
+        CoreData.setAuthor(getConfig().getString("Author"));
+        ListenerManager.registerListener();
+        Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§2插件已加载");
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {getHookPlugins();});
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {setDatabase();});
+    }
+
+    @Override
+    public void onDisable() {
+        Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§c插件已卸载");
+    }
+
+    public static JavaPlugin getInstance() {
+        return instance;
+    }
+
+    private void setDatabase() {
+        String database = getConfig().getString("DataBase");
+        database = "sqlite";
+        if (database.equalsIgnoreCase("sqlite")) {
+            CoreData.setDataBase(new SQLiteUtil());
+        } else if (database.equalsIgnoreCase("mysql")){
+            CoreData.setDataBase(new MysqlUtil());
+        }
+    }
+
+    private void getHookPlugins() {
+        Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
+        String pluginName = instance.getDescription().getName();
+        List<String> myDepend = Lists.newArrayList();
+        List<String> mySoftDepend = Lists.newArrayList();
+        for (Plugin plugin : plugins) {
+            if (plugin.getName().equalsIgnoreCase(pluginName)) {
+                continue;
+            }
+            String path = plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+            List<String> pluginDepend;
+            List<String> pluginSoftDepeng;
+            try {
+                pluginDepend = plugin.getPluginLoader().getPluginDescription(new File(path)).getDepend();
+                pluginDepend.stream().parallel().forEach(depend -> {
+                    if (depend.equalsIgnoreCase(pluginName)) {
+                        myDepend.add(plugin.getName());
+                    }
+                });
+                pluginSoftDepeng = plugin.getPluginLoader().getPluginDescription(new File(path)).getSoftDepend();
+                pluginSoftDepeng.stream().parallel().forEach(softDepend -> {
+                    if (softDepend.equalsIgnoreCase(pluginName)) {
+                        mySoftDepend.add(plugin.getName());
+                    }
+                });
+            } catch (InvalidDescriptionException e) {
+            }
+        }
+        StringBuffer depend = new StringBuffer();
+        myDepend.stream().forEach(d -> {
+            depend.append("§a" + d + " ");
+        });
+        if (depend.length() != 0) {
+            Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§bDepend: " + depend.toString());
+        }
+
+        StringBuffer softDepend = new StringBuffer();
+        mySoftDepend.stream().forEach(d -> {
+            softDepend.append("§a" + d + " ");
+        });
+
+        if (softDepend.length() != 0) {
+            Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§bSoftDepend: " + softDepend.toString());
+        }
+
+    }
+}

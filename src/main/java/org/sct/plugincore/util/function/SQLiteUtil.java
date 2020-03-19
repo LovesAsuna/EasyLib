@@ -1,0 +1,76 @@
+package org.sct.plugincore.util.function;
+
+import org.bukkit.Bukkit;
+import org.sct.plugincore.PluginCore;
+
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
+import java.io.File;
+import java.sql.*;
+
+/**
+ * @author LovesAsuna
+ * @date 2020/3/3 14:25
+ */
+
+public class SQLiteUtil implements DataBase{
+    private Connection connection;
+    private Statement statement;
+    private CachedRowSet crs;
+    private String url;
+
+    {
+        try {
+            url = "jdbc:sqlite:" + PluginCore.getInstance().getDataFolder().getPath() + File.separator + "data.db";
+            connection = DriverManager.getConnection(url);
+            statement = connection.createStatement();
+            crs = RowSetProvider.newFactory().createCachedRowSet();
+        } catch (SQLException e) {
+            StackTrace.printStackTrace(e);
+        }
+    }
+
+    @Override
+    public int store(String name, int id, String content) throws SQLException {
+        return statement.executeUpdate("INSERT INTO " + name + " VALUES ('" + id + "','" + content + "')");
+    }
+
+    @Override
+    public int update(String name, int id, String content) throws SQLException {
+        try {
+            return statement.executeUpdate("update " + name + " set ITEM='" + content + "' where id='" + id + "'");
+        } catch (SQLException e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public ResultSet read(String name) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("select * from " + name);
+        return resultSet;
+    }
+
+    @Override
+    public boolean checkTable(String name) {
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM sqlite_master WHERE type='table' AND name='" + name + "'");
+            resultSet.getString(1);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean createTable(String name, String sql) {
+        if (!checkTable(name)) {
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+}

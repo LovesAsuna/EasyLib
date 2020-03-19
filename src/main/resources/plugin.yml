@@ -1,0 +1,7 @@
+name: PluginCore
+version: ${project.version}
+main: org.sct.plugincore.PluginCore
+depend: [Vault]
+api-version: "1.13"
+description: ""
+
