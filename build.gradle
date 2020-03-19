@@ -1,15 +1,12 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 repositories {
     mavenLocal()
     maven {
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
-
-    maven {
-        url = 'https://jitpack.io'
+        url = 'https://jitpack.io/'
     }
 
     maven {
@@ -17,12 +14,18 @@ repositories {
     }
 }
 
+shadowJar {
+    configurations = [project.configurations.compile]
+}
+
+defaultTasks("shadowjar")
+
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
-    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
-    compileOnly 'org.bukkit:craftbukkit:1.15.2-R0.1-20200308.085440-10'
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
+    compileOnly group: 'com.github.MilkBowl', name: 'VaultAPI', version: '1.7'
+    compileOnly group: 'org.bukkit', name: 'craftbukkit', version: '1.15.2-R0.1-20200308.085440-10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
 }
 
 group = 'org.sct'
@@ -32,4 +35,15 @@ sourceCompatibility = '8'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+task copyFile(type: Copy) {
+    doLast {
+        from('build/libs/')
+        into('E:/work/1.15.2test/plugins/')
+        include('PluginCore*.jar')
+        rename {
+            "PluginCore.jar"
+        }
+    }
 }

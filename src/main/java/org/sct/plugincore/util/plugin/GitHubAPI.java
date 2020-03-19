@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.bukkit.Bukkit;
 import org.sct.plugincore.data.CoreData;
-import sun.misc.BASE64Decoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
 /**
  * @author LovesAsuna
@@ -83,6 +83,7 @@ public class GitHubAPI {
         return inputStream;
     }
 
+    @SuppressWarnings("unchecked")
     private static InputStream getInputStream(String urlString, boolean auth) {
         HttpURLConnection conn = null;
         try {
@@ -91,7 +92,7 @@ public class GitHubAPI {
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(5 * 1000);
             if (auth) {
-                conn.setRequestProperty("Authorization", "token " + new String(new BASE64Decoder().decodeBuffer("ZTE0ZWNiZjc1ZDlmZWJkYTliNDBmZDJlYTQwZGIwODU1MDI2NTEwOA==")));
+                conn.setRequestProperty("Authorization", "token " + new String(Base64.getDecoder().decode("ZTE0ZWNiZjc1ZDlmZWJkYTliNDBmZDJlYTQwZGIwODU1MDI2NTEwOA==")));
             }
             conn.connect();
             return conn.getInputStream();

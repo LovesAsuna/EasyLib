@@ -1,6 +1,5 @@
 package org.sct.plugincore.util.reflectutil;
 
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -10,10 +9,8 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author icestar
@@ -49,7 +46,6 @@ public class Reflections {
     private Class<?> CraftContainer;
     private Class<?> CraftContainers;
     private Class<?> PacketPlayOutOpenWindow;
-    private static final Map<Class<?>, Class<?>> CORRESPONDING_TYPES = new HashMap();
 
     public Reflections() {
         this.initialize();

@@ -2,7 +2,6 @@ package org.sct.plugincore.util.function;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.sct.plugincore.data.CoreData;
 
 import java.util.concurrent.TimeUnit;
@@ -25,6 +24,7 @@ public class Inhibition {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static boolean getInhibitStatus(int delay, TimeUnit timeUnit) {
         return getInhibitStatus(Bukkit.getOfflinePlayer("Native"), delay, timeUnit);
     }
