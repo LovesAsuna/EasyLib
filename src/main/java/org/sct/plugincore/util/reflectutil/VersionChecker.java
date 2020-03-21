@@ -22,7 +22,9 @@ public class VersionChecker {
 
     }
 
-    /** @deprecated */
+    /**
+     * @deprecated
+     */
     @Deprecated
     public VersionChecker.Version getVersion() {
         return VersionChecker.Version.getCurrent();
@@ -36,7 +38,7 @@ public class VersionChecker {
             String[] var7;
             int var6 = (var7 = var1.split("\\.")).length;
 
-            for(int var5 = 0; var5 < var6; ++var5) {
+            for (int var5 = 0; var5 < var6; ++var5) {
                 String var4 = var7[var5];
                 String var8 = var4;
                 if (var4.length() == 1) {
@@ -116,15 +118,15 @@ public class VersionChecker {
             if (current != null) {
                 return current;
             } else {
-                String[] var0 = Bukkit.getServer().getClass().getPackage().getName().split("\\.");
-                String var1 = var0[var0.length - 1];
-                VersionChecker.Version[] var5;
-                int var4 = (var5 = values()).length;
+                String[] versionPath = Bukkit.getServer().getClass().getPackage().getName().split("\\.");
+                String currentVersion = versionPath[versionPath.length - 1];
+                VersionChecker.Version[] versions;
+                int length = (versions = values()).length;
 
-                for(int var3 = 0; var3 < var4; ++var3) {
-                    VersionChecker.Version var2 = var5[var3];
-                    if (var2.name().equalsIgnoreCase(var1)) {
-                        current = var2;
+                for (int i = 0; i < length; ++i) {
+                    VersionChecker.Version version = versions[i];
+                    if (version.name().equalsIgnoreCase(currentVersion)) {
+                        current = version;
                         break;
                     }
                 }
