@@ -282,7 +282,7 @@ public class Reflections {
         return var2;
     }
 
-    private static Class<?> getBukkitClass(String className) {
+    public static Class<?> getBukkitClass(String className) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + VersionChecker.Version.getCurrent().toString() + "." + className);
         } catch (ClassNotFoundException e) {
