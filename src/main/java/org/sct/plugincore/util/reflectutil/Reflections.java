@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
+import org.sct.plugincore.util.function.StackTrace;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -55,13 +56,13 @@ public class Reflections {
         try {
             this.CraftServerClass = getBukkitClass("CraftServer");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.CraftWorldClass = getBukkitClass("CraftWorld");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
@@ -87,7 +88,7 @@ public class Reflections {
         try {
             this.PacketPlayOutOpenWindow = this.getMinecraftClass("PacketPlayOutOpenWindow");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
@@ -108,13 +109,13 @@ public class Reflections {
         try {
             this.CraftServer = this.CraftServerClass.cast(Bukkit.getServer());
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.MinecraftServerClass = this.getMinecraftClass("MinecraftServer");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
@@ -124,37 +125,37 @@ public class Reflections {
                 nmsChatSerializer = this.getMinecraftClass("IChatBaseComponent$ChatSerializer");
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.MinecraftServer = this.CraftServer.getClass().getMethod("getServer").invoke(this.CraftServer);
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.CraftStatistic = getBukkitClass("CraftStatistic");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.Statistics = this.getMinecraftClass("Statistic");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.ServerStatisticManager = this.getMinecraftClass("ServerStatisticManager");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.PropertyManagerClass = this.getMinecraftClass("PropertyManager");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
@@ -170,13 +171,13 @@ public class Reflections {
         try {
             this.CraftPlayer = getBukkitClass("entity.CraftPlayer");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.CraftEntity = getBukkitClass("entity.CraftEntity");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
@@ -188,26 +189,26 @@ public class Reflections {
         try {
             this.NBTTagCompound = this.getMinecraftClass("NBTTagCompound");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.CraftItemStack = getBukkitClass("inventory.CraftItemStack");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.Item = this.getMinecraftClass("Item");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
         try {
             this.IStack = this.getMinecraftClass("ItemStack");
             this.EnumHand = this.getMinecraftClass("EnumHand");
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
     }
@@ -243,7 +244,7 @@ public class Reflections {
                 var3.getClass().getMethod("moveToWorld", this.getPlayerHandle(player).getClass(), Integer.TYPE, Boolean.TYPE).invoke(var3, this.getPlayerHandle(player), 0, false);
             }
         } catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | IllegalAccessException e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
     }
@@ -254,7 +255,7 @@ public class Reflections {
         try {
             getHandle = player.getClass().getMethod("getHandle").invoke(player);
         } catch (Exception e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
         return getHandle;
     }
@@ -282,7 +283,7 @@ public class Reflections {
         return var2;
     }
 
-    public static Class<?> getBukkitClass(String className) {
+    public Class<?> getBukkitClass(String className) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + VersionChecker.Version.getCurrent().toString() + "." + className);
         } catch (ClassNotFoundException e) {
@@ -411,7 +412,7 @@ public class Reflections {
                 var5.getClass().getMethod("sendPacket", this.getClass("{nms}.Packet")).invoke(var5, packet);
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
     }
 
@@ -426,7 +427,7 @@ public class Reflections {
                 var6.getClass().getMethod("sendPacket", this.getClass("{nms}.Packet")).invoke(var6, packet);
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
         }
 
     }
@@ -437,7 +438,7 @@ public class Reflections {
             String var3 = var1.replace("{nms}", "net.minecraft.server." + var2).replace("{nm}", "net.minecraft." + var2).replace("{cb}", "org.bukkit.craftbukkit.." + var2);
             return Class.forName(var3);
         } catch (Throwable e) {
-            e.printStackTrace();
+            StackTrace.printStackTrace(e);
             return null;
         }
     }
