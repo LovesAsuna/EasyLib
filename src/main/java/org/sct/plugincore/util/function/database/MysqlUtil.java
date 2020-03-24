@@ -1,4 +1,4 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.function.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +8,10 @@ import java.sql.SQLException;
  * @date 2020/3/3 13:27
  */
 
-public class MysqlUtil implements DataBase{
+public class MysqlUtil implements DataBaseManager {
+
+    public MysqlUtil() {
+    }
 
     @Override
     public int store(String name, int id, String content) throws SQLException {

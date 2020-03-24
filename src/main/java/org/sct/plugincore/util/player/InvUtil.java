@@ -1,14 +1,12 @@
 package org.sct.plugincore.util.player;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.sct.plugincore.data.CoreData;
-import org.sct.plugincore.util.function.BukkitObjectSerializerUtils;
-import org.sct.plugincore.util.function.StackTrace;
+import org.sct.plugincore.util.function.serializer.BukkitObjectSerializerUtils;
+import org.sct.plugincore.util.function.stack.StackTrace;
 
-import javax.sql.rowset.CachedRowSet;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +20,8 @@ public class InvUtil {
 
     public static boolean store(Player player) throws IOException {
         Inventory inv = player.getInventory();
-        if (!CoreData.getDataBase().checkTable(getUUID(player))) {
-            CoreData.getDataBase().createTable(getUUID(player), "CREATE TABLE " + getUUID(player) + "(" +
+        if (!CoreData.getDataBaseManager().checkTable(getUUID(player))) {
+            CoreData.getDataBaseManager().createTable(getUUID(player), "CREATE TABLE " + getUUID(player) + "(" +
                     "ID INT PRIMARY KEY NOT NULL," +
                     "ITEM TEXT);");
             for (int i = 0; i < inv.getSize(); i++) {
@@ -31,7 +29,7 @@ public class InvUtil {
                 int id = i;
                 String item = BukkitObjectSerializerUtils.singleObjectToString(itemStack);
                 try {
-                    CoreData.getDataBase().store(getUUID(player), id, item);
+                    CoreData.getDataBaseManager().store(getUUID(player), id, item);
                 } catch (SQLException e) {
                     StackTrace.printStackTrace(e);
                 }
@@ -43,7 +41,7 @@ public class InvUtil {
                 int id = i;
                 String item = BukkitObjectSerializerUtils.singleObjectToString(itemStack);
                 try {
-                    CoreData.getDataBase().update(getUUID(player), id, item);
+                    CoreData.getDataBaseManager().update(getUUID(player), id, item);
                 } catch (SQLException e) {
                     StackTrace.printStackTrace(e);
                 }
@@ -55,7 +53,7 @@ public class InvUtil {
     public static boolean saveInv(Player player) {
         try {
             Inventory inv = player.getInventory();
-            ResultSet resultSet =  CoreData.getDataBase().read(getUUID(player));
+            ResultSet resultSet =  CoreData.getDataBaseManager().read(getUUID(player));
             resultSet.beforeFirst();
             while (resultSet.next()) {
                 int id = resultSet.getInt("ID");

@@ -1,4 +1,4 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.function.serializer;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.io.BukkitObjectInputStream;

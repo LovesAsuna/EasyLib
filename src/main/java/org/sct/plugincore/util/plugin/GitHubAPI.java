@@ -3,6 +3,8 @@ package org.sct.plugincore.util.plugin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.plugincore.data.CoreData;
 
 import java.io.BufferedReader;
@@ -19,7 +21,7 @@ import java.util.Base64;
  */
 
 public class GitHubAPI {
-    public static String getAPI(String author, String repos) {
+    public String getAPI(String author, String repos) {
         StringBuffer buffer = new StringBuffer();
         String line;
 
@@ -39,7 +41,7 @@ public class GitHubAPI {
         return buffer.toString();
     }
 
-    public static String getRelease(String author, String repos) {
+    public String getRelease(String author, String repos) {
         StringBuffer buffer = new StringBuffer();
         String line;
 
@@ -59,7 +61,7 @@ public class GitHubAPI {
         return buffer.toString();
     }
 
-    public static String getReleaseDetail(String author, String repos) {
+    public String getReleaseDetail(String author, String repos) {
         String release = getRelease(author, repos);
         JsonNode root = null;
 
@@ -73,7 +75,7 @@ public class GitHubAPI {
         return body;
     }
 
-    private static InputStream getInputStream(String author, String repos) {
+    private InputStream getInputStream(String author, String repos) {
         InputStream inputStream;
         if (author.equalsIgnoreCase("LovesAsuna")) {
             inputStream = getInputStream("https://api.github.com/repos/" + author + "/" + repos + "/releases", true);
@@ -84,7 +86,7 @@ public class GitHubAPI {
     }
 
     @SuppressWarnings("unchecked")
-    private static InputStream getInputStream(String urlString, boolean auth) {
+    private InputStream getInputStream(String urlString, boolean auth) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(urlString);
@@ -99,5 +101,14 @@ public class GitHubAPI {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void getUpdateDetail(CommandSender sender, JavaPlugin instance) throws IOException {
+        String pluginName = instance.getDescription().getName();
+
+        String detail = getReleaseDetail("LovesAsuna", pluginName).replaceAll("\\r", "\\n");
+        sender.sendMessage("§e===============================================");
+        sender.sendMessage(detail);
+        sender.sendMessage("§e===============================================");
     }
 }

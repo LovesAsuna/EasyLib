@@ -1,8 +1,9 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.function.language;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.sct.plugincore.data.CoreData;
+import org.sct.plugincore.util.function.stack.StackTrace;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +18,8 @@ import java.net.URLEncoder;
  */
 
 public class TranslateUtil {
-    public static String translate(String langFrom, String langTo, String word) {
+
+    public String translate(String langFrom, String langTo, String word) {
         try {
             String urlString = "https://translate.googleapis.com/translate_a/single?" +
                     "client=gtx&" +

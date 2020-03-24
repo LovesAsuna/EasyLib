@@ -1,6 +1,8 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.function.command;
 
 import org.bukkit.command.CommandSender;
+
+import java.util.Map;
 
 public interface SubCommand {
     /**
@@ -11,5 +13,10 @@ public interface SubCommand {
      * @return
      */
     boolean execute(CommandSender sender, String[] args);
+
+    /**
+     * @return map Integer为参数的位置(从1开始),String[]为该位置拥有的命令
+     **/
+    Map<Integer, String[]> getParams();
 
 }

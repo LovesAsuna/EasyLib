@@ -5,8 +5,7 @@ import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.sct.plugincore.util.function.DataBase;
+import org.sct.plugincore.util.function.database.DataBaseManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class CoreData {
 
     /*SQLite*/
     @Getter @Setter
-    private static DataBase dataBase;
+    private static DataBaseManager dataBaseManager;
 
     static {
         newestversion = Maps.newHashMap();

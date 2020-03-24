@@ -5,8 +5,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.plugincore.PluginCore;
-import org.sct.plugincore.util.BasicUtil;
-import org.sct.plugincore.util.function.StackTrace;
+import org.sct.plugincore.util.function.stack.StackTrace;
 
 import java.io.File;
 import java.io.IOException;

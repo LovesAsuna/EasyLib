@@ -1,10 +1,8 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.function.database;
 
-import org.bukkit.Bukkit;
 import org.sct.plugincore.PluginCore;
+import org.sct.plugincore.util.function.stack.StackTrace;
 
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.RowSetProvider;
 import java.io.File;
 import java.sql.*;
 
@@ -13,18 +11,17 @@ import java.sql.*;
  * @date 2020/3/3 14:25
  */
 
-public class SQLiteUtil implements DataBase{
+public class SQLiteUtil implements DataBaseManager {
     private Connection connection;
     private Statement statement;
-    private CachedRowSet crs;
     private String url;
 
-    {
+
+    public SQLiteUtil() {
         try {
             url = "jdbc:sqlite:" + PluginCore.getInstance().getDataFolder().getPath() + File.separator + "data.db";
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
-            crs = RowSetProvider.newFactory().createCachedRowSet();
         } catch (SQLException e) {
             StackTrace.printStackTrace(e);
         }

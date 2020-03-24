@@ -1,4 +1,4 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.function.stack;
 
 import org.bukkit.Bukkit;
 import org.sct.plugincore.util.BasicUtil;

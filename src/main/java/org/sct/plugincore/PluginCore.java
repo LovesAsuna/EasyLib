@@ -1,14 +1,15 @@
 package org.sct.plugincore;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.plugincore.data.CoreData;
 import org.sct.plugincore.manager.ListenerManager;
-import org.sct.plugincore.util.function.MysqlUtil;
-import org.sct.plugincore.util.function.SQLiteUtil;
+import org.sct.plugincore.util.function.database.MysqlUtil;
+import org.sct.plugincore.util.function.database.SQLiteUtil;
 
 import java.io.File;
 import java.util.List;
@@ -20,7 +21,11 @@ import java.util.List;
 
 public class PluginCore extends JavaPlugin {
 
-    private static JavaPlugin instance;
+    @Getter
+    private static PluginCore instance;
+
+    private static PluginCoreAPI pluginCoreAPI;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -37,17 +42,13 @@ public class PluginCore extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§c插件已卸载");
     }
 
-    public static JavaPlugin getInstance() {
-        return instance;
-    }
-
     private void setDatabase() {
         String database = getConfig().getString("DataBase");
         database = "sqlite";
         if (database.equalsIgnoreCase("sqlite")) {
-            CoreData.setDataBase(new SQLiteUtil());
+            CoreData.setDataBaseManager(new SQLiteUtil());
         } else if (database.equalsIgnoreCase("mysql")){
-            CoreData.setDataBase(new MysqlUtil());
+            CoreData.setDataBaseManager(new MysqlUtil());
         }
     }
 
@@ -95,6 +96,9 @@ public class PluginCore extends JavaPlugin {
         if (softDepend.length() != 0) {
             Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§bSoftDepend: " + softDepend.toString());
         }
+    }
 
+    public static PluginCoreAPI getPluginCoreAPI() {
+        return pluginCoreAPI;
     }
 }

@@ -1,9 +1,7 @@
 package org.sct.plugincore.util.reflectutil;
 
 import org.bukkit.Bukkit;
-import org.sct.plugincore.util.function.StackTrace;
-
-import java.util.Random;
+import org.sct.plugincore.util.function.stack.StackTrace;
 
 /**
  * @author icestar
@@ -15,12 +13,6 @@ public class VersionChecker {
     public static String s1 = "471830";
     public static String s2 = "3742";
     public static String s3 = "36748798";
-
-    public VersionChecker() {
-        Random var2 = new Random(System.currentTimeMillis());
-        int var3 = var2.nextInt(3000);
-
-    }
 
     /**
      * @deprecated

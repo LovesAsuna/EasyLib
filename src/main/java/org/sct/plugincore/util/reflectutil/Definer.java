@@ -1,7 +1,9 @@
-package org.sct.plugincore.util.function;
+package org.sct.plugincore.util.reflectutil;
 
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 /**
@@ -10,6 +12,10 @@ import java.lang.reflect.Method;
  */
 
 public class Definer {
+
+    protected Definer() {
+    }
+
     public static Class<?> getInstanceClass(String path, String instanceName) {
         try {
             InputStream inputStream = new FileInputStream(path);

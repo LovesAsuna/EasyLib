@@ -1,11 +1,10 @@
 package org.sct.plugincore.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
+import org.sct.plugincore.util.function.stack.StackTrace;
 import org.sct.plugincore.util.player.InvUtil;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class PlayerQuit implements Listener {
         try {
             InvUtil.store(player);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            StackTrace.printStackTrace(ex);
         }
     }
 }

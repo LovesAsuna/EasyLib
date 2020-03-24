@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
-import org.sct.plugincore.util.function.StackTrace;
+import org.sct.plugincore.util.function.stack.StackTrace;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
