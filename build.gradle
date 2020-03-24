@@ -28,7 +28,6 @@ dependencies {
     compileOnly 'org.bukkit:craftbukkit:1.15.2-R0.1-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     compileOnly 'com.github.LovesAsuna:VaultAPI:-SNAPSHOT'
-    compileOnly 'com.github.Polar-Pumpkin:ParrotX:-SNAPSHOT'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
