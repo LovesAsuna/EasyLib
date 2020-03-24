@@ -71,6 +71,7 @@ public class CommandHandler implements TabExecutor {
                             return StringUtil.copyPartialMatches(args[args.length - 1], completions, new ArrayList<>());
                         }
                     }
+                    return null;
                 }
                 return completions;
             }
