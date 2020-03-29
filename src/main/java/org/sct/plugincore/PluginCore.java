@@ -10,6 +10,7 @@ import org.sct.plugincore.data.CoreData;
 import org.sct.plugincore.manager.ListenerManager;
 import org.sct.plugincore.util.function.database.MysqlUtil;
 import org.sct.plugincore.util.function.database.SQLiteUtil;
+import org.sct.plugincore.util.plugin.Metrics;
 
 import java.io.File;
 import java.util.List;
@@ -29,12 +30,17 @@ public class PluginCore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        Metrics metrics = new Metrics(this, 6909);
         saveDefaultConfig();
         CoreData.setAuthor(getConfig().getString("Author"));
         ListenerManager.registerListener();
         Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§2插件已加载");
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {getHookPlugins();});
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {setDatabase();});
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            getHookPlugins();
+        });
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            setDatabase();
+        });
     }
 
     @Override
@@ -47,7 +53,7 @@ public class PluginCore extends JavaPlugin {
         database = "sqlite";
         if (database.equalsIgnoreCase("sqlite")) {
             CoreData.setDataBaseManager(new SQLiteUtil());
-        } else if (database.equalsIgnoreCase("mysql")){
+        } else if (database.equalsIgnoreCase("mysql")) {
             CoreData.setDataBaseManager(new MysqlUtil());
         }
     }
