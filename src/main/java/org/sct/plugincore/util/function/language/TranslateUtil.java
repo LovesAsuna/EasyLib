@@ -1,6 +1,5 @@
 package org.sct.plugincore.util.function.language;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.sct.plugincore.util.plugin.JackSon;
 
 import java.io.BufferedReader;
@@ -47,7 +46,6 @@ public class TranslateUtil {
     }
 
     private static String parseResult(String inputJson) {
-        JsonNode root = null;
         try {
             Object ObjectMapper = JackSon.getObjectMapper();
             Object JsonNode = JackSon.getReadTree().invoke(ObjectMapper, inputJson);
