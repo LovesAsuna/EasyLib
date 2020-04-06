@@ -15,9 +15,9 @@ import java.net.URL;
 
 public class DownloadUtil {
 
-    public static void download(CommandSender sender, JavaPlugin instance) throws IOException {
+    public static void download(CommandSender sender, JavaPlugin instance, String author) throws IOException {
         String pluginName = instance.getDescription().getName();
-        download(sender, instance, "https://github.com/" + CoreData.getAuthor() + "/" + pluginName + "/releases/download/" + CoreData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar",pluginName + ".jar",instance.getDataFolder().getPath() + "\\update");
+        download(sender, instance, "https://github.com/" + author + "/" + pluginName + "/releases/download/" + CoreData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", pluginName + ".jar", instance.getDataFolder().getPath() + "\\update");
     }
 
     public static void download(CommandSender sender, JavaPlugin instance, String urlString, String fileName, String savePath) throws IOException {
@@ -58,7 +58,7 @@ public class DownloadUtil {
         int len = 0;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         while ((len = inputStream.read(buffer)) != -1) {
-            bos.write(buffer,0,len);
+            bos.write(buffer, 0, len);
         }
         bos.close();
         return bos.toByteArray();

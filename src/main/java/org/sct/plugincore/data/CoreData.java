@@ -1,6 +1,5 @@
 package org.sct.plugincore.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +19,6 @@ public class CoreData {
 
     @Getter
     private static Map<String, String> newestversion;
-    @Setter
-    @Getter
-    private static String author;
-    @Getter
-    private static ObjectMapper mapper;
 
     /*事件抑制器*/
     @Getter
@@ -35,12 +29,17 @@ public class CoreData {
     private static ScheduledThreadPoolExecutor scheduledpool;
 
     /*SQLite*/
-    @Getter @Setter
+    @Getter
+    @Setter
     private static DataBaseManager dataBaseManager;
+
+    /*自动更新 shezhi*/
+    @Getter
+    @Setter
+    private static Boolean autoupdate;
 
     static {
         newestversion = Maps.newHashMap();
-        mapper = new ObjectMapper();
         inhibition = new HashMap<>();
         scheduledpool = new ScheduledThreadPoolExecutor(1);
     }

@@ -1,9 +1,7 @@
 package org.sct.plugincore.util.function.language;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.sct.plugincore.data.CoreData;
-import org.sct.plugincore.util.function.stack.StackTrace;
+import org.sct.plugincore.util.plugin.JackSon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,12 +49,12 @@ public class TranslateUtil {
     private static String parseResult(String inputJson) {
         JsonNode root = null;
         try {
-            root = CoreData.getMapper().readTree(inputJson);
-        } catch (JsonProcessingException e) {
-            StackTrace.printStackTrace(e);
+            Object ObjectMapper = JackSon.getObjectMapper();
+            Object JsonNode = JackSon.getReadTree().invoke(ObjectMapper, inputJson);
+            return (String) JackSon.getAsText().invoke(JackSon.getIntget().invoke(JackSon.getIntget().invoke(JackSon.getIntget().invoke(JsonNode, 0), 0), 0));
+        } catch (ReflectiveOperationException e) {
+            return null;
         }
-        String result = root.get(0).get(0).get(0).asText();
-        return result;
     }
 
 }
