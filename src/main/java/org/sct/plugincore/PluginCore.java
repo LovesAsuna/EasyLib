@@ -10,6 +10,8 @@ import org.sct.plugincore.data.CoreData;
 import org.sct.plugincore.manager.ListenerManager;
 import org.sct.plugincore.util.function.database.MysqlUtil;
 import org.sct.plugincore.util.function.database.SQLiteUtil;
+import org.sct.plugincore.util.plugin.FileUpdate;
+import org.sct.plugincore.util.plugin.JackSon;
 import org.sct.plugincore.util.plugin.Metrics;
 
 import java.io.File;
@@ -31,10 +33,17 @@ public class PluginCore extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Metrics metrics = new Metrics(this, 6909);
+        pluginCoreAPI = new PluginCoreAPI();
         saveDefaultConfig();
-        CoreData.setAuthor(getConfig().getString("Author"));
+        CoreData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
+        if (CoreData.getAutoupdate()) {
+            JackSon.download();
+        }
         ListenerManager.registerListener();
         Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§2插件已加载");
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            FileUpdate.update(this, "config.yml", getDataFolder().getPath());
+        });
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             getHookPlugins();
         });
