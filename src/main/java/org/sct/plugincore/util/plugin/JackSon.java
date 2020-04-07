@@ -68,12 +68,12 @@ public class JackSon {
         AtomicReference<URL> core = new AtomicReference<>();
         try {
             databindconn.set((HttpURLConnection) new URL("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar").openConnection());
-            coreconn.set((HttpURLConnection) new URL("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar").openConnection());
+            coreconn.set((HttpURLConnection) new URL("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar").openConnection());
             annotationsconn.set((HttpURLConnection) new URL("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar").openConnection());
 
-            databind.set(new URL("file:/" + databindFile.getAbsolutePath()));
-            annotations.set(new URL("file:/" + annotationsFile.getAbsolutePath()));
-            core.set(new URL("file:/" + coreFile.getAbsolutePath()));
+            databind.set(databindFile.toURI().toURL());
+            annotations.set(annotationsFile.toURI().toURL());
+            core.set(coreFile.toURI().toURL());
         } catch (IOException e) {
             StackTrace.printStackTrace(e);
         }
