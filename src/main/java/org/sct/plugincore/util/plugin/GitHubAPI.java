@@ -42,12 +42,13 @@ public class GitHubAPI {
     public String getRelease(String author, String repos, String auth) {
         StringBuffer buffer = new StringBuffer();
         String line;
+        PluginCore.getInstance().getServer().getConsoleSender().sendMessage(String.format("§7[§e%s§7] §cThere was an issue attempting to check for the latest version.", repos));
 
         try {
             InputStream inputStream = getInputStream(author, repos, auth);
             if (inputStream == null) {
                 throw new NullPointerException();
-        }
+            }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "GBK"));
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
@@ -102,10 +103,10 @@ public class GitHubAPI {
         }
     }
 
-    public void getUpdateDetail(CommandSender sender, JavaPlugin instance, String auth) throws IOException {
+    public void getUpdateDetail(CommandSender sender, JavaPlugin instance, String author, String auth) throws IOException {
         String pluginName = instance.getDescription().getName();
 
-        String detail = getReleaseDetail("LovesAsuna", pluginName, auth).replaceAll("\\r", "\\n");
+        String detail = getReleaseDetail(author, pluginName, auth).replaceAll("\\r", "\\n");
         sender.sendMessage("§e===============================================");
         sender.sendMessage(detail);
         sender.sendMessage("§e===============================================");
