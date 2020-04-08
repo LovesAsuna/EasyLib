@@ -1,5 +1,6 @@
 package org.sct.plugincore.util.reflectutil;
 
+import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -8,10 +9,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
 import org.sct.plugincore.util.function.stack.StackTrace;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author icestar
@@ -41,7 +44,7 @@ public class Reflections {
     private Class<?> CraftItemStack;
     private Class<?> Item;
     private Class<?> IStack;
-    public static Class<?> nmsChatSerializer;
+    public  Class<?> nmsChatSerializer;
     private Class<?> dimensionManager;
     private Class<?> PacketPlayOutAnimation;
     private Class<?> CraftContainer;
@@ -233,7 +236,7 @@ public class Reflections {
 
     public void respawn(Player player) {
         try {
-            Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object)null);
+            Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object) null);
             Object var3 = var2.getClass().getMethod("getPlayerList").invoke(var2);
             if (VersionChecker.Version.isCurrentEqualOrHigher(VersionChecker.Version.v1_13_R1)) {
                 Object var4 = this.getDimensionManager(player.getWorld());
@@ -265,7 +268,7 @@ public class Reflections {
 
         try {
             if (VersionChecker.Version.isCurrentEqualOrHigher(VersionChecker.Version.v1_14_R1)) {
-                switch(world.getEnvironment().ordinal()) {
+                switch (world.getEnvironment().ordinal()) {
                     case 0:
                         return this.dimensionManager.getField("OVERWORLD").get(this.dimensionManager);
                     case 1:
@@ -301,6 +304,27 @@ public class Reflections {
         } catch (ClassNotFoundException var3) {
             return null;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Enum> Set<T> getAllMatchingEnum(Class<T> enumClass, String... names) {
+        Set<T> set = Sets.newHashSet();
+        String[] var3 = names;
+        int length = names.length;
+
+        for (int i = 0; i < length; i++) {
+            String name = var3[i];
+
+            try {
+                Field enumField = enumClass.getDeclaredField(name);
+                if (enumField.isEnumConstant()) {
+                    set.add((T) enumField.get(null));
+                }
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+            }
+        }
+
+        return set;
     }
 
     public Object getNmsPlayer(Player player) {
@@ -341,7 +365,7 @@ public class Reflections {
                 setString.invoke(compound, string, content);
                 Method setTag = nmsItem.getClass().getMethod("setTag", this.NBTTagCompound);
                 setTag.invoke(nmsItem, compound);
-                return (ItemStack)this.asBukkitCopy(nmsItem);
+                return (ItemStack) this.asBukkitCopy(nmsItem);
             } catch (Exception e) {
                 return null;
             }
@@ -351,7 +375,8 @@ public class Reflections {
     public Object getNBT(ItemStack itemStack, String string) {
         if (itemStack == null) {
             return null;
-        } {
+        }
+        {
             try {
                 Object nmsItem = asNMSCopy(itemStack);
                 if (nmsItem == null) {
@@ -376,7 +401,8 @@ public class Reflections {
     public ItemStack removeNBT(ItemStack itemStack, String string) {
         if (itemStack == null) {
             return null;
-        } {
+        }
+        {
             try {
                 Object nmsItem = asNMSCopy(itemStack);
                 if (nmsItem == null) {
@@ -394,7 +420,7 @@ public class Reflections {
                 remove.invoke(compound, string);
                 Method setTag = nmsItem.getClass().getMethod("setTag", this.NBTTagCompound);
                 setTag.invoke(nmsItem, compound);
-                return (ItemStack)this.asBukkitCopy(nmsItem);
+                return (ItemStack) this.asBukkitCopy(nmsItem);
             } catch (Exception e) {
                 return null;
             }
@@ -405,8 +431,8 @@ public class Reflections {
         try {
             Iterator var3 = Bukkit.getOnlinePlayers().iterator();
 
-            while(var3.hasNext()) {
-                Player var2 = (Player)var3.next();
+            while (var3.hasNext()) {
+                Player var2 = (Player) var3.next();
                 Object var4 = this.getNmsPlayer(var2);
                 Object var5 = var4.getClass().getField("playerConnection").get(var4);
                 var5.getClass().getMethod("sendPacket", this.getClass("{nms}.Packet")).invoke(var5, packet);
@@ -420,8 +446,8 @@ public class Reflections {
         try {
             Iterator var4 = list.iterator();
 
-            while(var4.hasNext()) {
-                String var3 = (String)var4.next();
+            while (var4.hasNext()) {
+                String var3 = (String) var4.next();
                 Object var5 = this.getNmsPlayer(Bukkit.getPlayer(var3));
                 Object var6 = var5.getClass().getField("playerConnection").get(var5);
                 var6.getClass().getMethod("sendPacket", this.getClass("{nms}.Packet")).invoke(var6, packet);
