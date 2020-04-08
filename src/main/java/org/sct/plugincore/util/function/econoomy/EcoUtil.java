@@ -1,4 +1,4 @@
-package org.sct.plugincore.util.player;
+package org.sct.plugincore.util.function.econoomy;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -15,15 +15,16 @@ public final class EcoUtil {
      *
      * @throws NullPointerException NullPointerException
      */
-    public static void loadVault() throws NullPointerException {
+    public static boolean loadVault() throws NullPointerException {
         if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            return;
+            return false;
         }
         RegisteredServiceProvider<Economy> registeredServiceProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
         if (registeredServiceProvider == null) {
-            throw new NullPointerException();
+            return false;
         }
         economy = registeredServiceProvider.getProvider();
+        return true;
     }
 
     /**
