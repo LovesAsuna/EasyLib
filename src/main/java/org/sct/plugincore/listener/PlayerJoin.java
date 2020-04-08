@@ -3,7 +3,7 @@ package org.sct.plugincore.listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.sct.plugincore.util.player.InvUtil;
+import org.sct.plugincore.util.function.player.InvUtil;
 
 /**
  * @author LovesAsuna

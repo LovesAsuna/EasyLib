@@ -32,7 +32,7 @@ public class CheckUpdate {
             } else {
                 instance.getServer().getConsoleSender().sendMessage("§7[§e" + pluginName + "§7]§c最新版本为" + CoreData.getNewestversion().get(instance.getName()));
                 if (PluginCore.getInstance().getConfig().getBoolean("ShowUpdateMsg")) {
-                    PluginCore.getPluginCoreAPI().getGitHubAPI().getUpdateDetail(sender, instance, auth);
+                    PluginCore.getPluginCoreAPI().getGitHubAPI().getUpdateDetail(sender, instance, author, auth);
                 }
                 instance.getServer().getConsoleSender().sendMessage("§7[§e" + pluginName + "§7]§c请下载更新!");
             }

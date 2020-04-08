@@ -1,4 +1,4 @@
-package org.sct.plugincore.util.player;
+package org.sct.plugincore.util.function.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

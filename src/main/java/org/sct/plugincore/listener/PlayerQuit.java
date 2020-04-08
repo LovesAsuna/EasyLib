@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.sct.plugincore.util.function.stack.StackTrace;
-import org.sct.plugincore.util.player.InvUtil;
+import org.sct.plugincore.util.function.player.InvUtil;
 
 import java.io.IOException;
 
