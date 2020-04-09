@@ -4,6 +4,10 @@ import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.*;
 
 public class BasicUtil {
 
@@ -32,19 +36,13 @@ public class BasicUtil {
     }
 
     public static int ExtraceInt(String string) {
-        String s = string.trim();
-        String collect = "";
-        if (s != null && !"".equals(s)) {
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) >= 48 && s.charAt(i) <= 57) {
-                    if (s.charAt(i) == 38) {
-                        continue;
-                    }
-                    collect += s.charAt(i);
-                }
-            }
+        Pattern pattern = compile("\\d+");
+        StringBuffer buffer = new StringBuffer();
+        Matcher matcher = pattern.matcher(string);
+        while (matcher.find()) {
+            buffer.append(matcher.group());
         }
-        return collect.isEmpty() ? 0 : Integer.parseInt(collect);
+        return buffer.toString().isEmpty() ? 0 : Integer.parseInt(buffer.toString());
     }
 
     public static <T> String replace(String message, String var, T replace) {
