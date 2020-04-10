@@ -37,7 +37,7 @@ public class PluginCore extends JavaPlugin {
         saveDefaultConfig();
         CoreData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
         if (CoreData.getAutoupdate()) {
-            JackSon.download();
+            JackSon.initJackson();
         }
         ListenerManager.registerListener();
         Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§2插件已加载");
