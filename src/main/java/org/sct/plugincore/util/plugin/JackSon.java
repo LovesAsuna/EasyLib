@@ -1,7 +1,9 @@
 package org.sct.plugincore.util.plugin;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.sct.plugincore.PluginCore;
+import org.sct.plugincore.util.BasicUtil;
 import org.sct.plugincore.util.function.stack.StackTrace;
 
 import java.io.File;
@@ -40,7 +42,11 @@ public class JackSon {
     @Getter
     private static boolean downloadDepen = false;
 
-    public static void download() {
+    private static final String ANNOTATIONS_MD5 = "20368d1f52e031381a510cd1ce6ea2b7";
+    private static final String CORE_MD5 = "8f84e33a1c06b8fd16b4166b9fc8331b";
+    private static final String DATABIND_MD5 = "f96c78787ea2830e8dfd3a5a66c4f664";
+
+    public static void initJackson() {
         if (downloadDepen) {
             return;
         }
@@ -83,73 +89,56 @@ public class JackSon {
         AtomicBoolean corefinish = new AtomicBoolean(false);
 
         pool.submit(() -> {
+            String s = "jackson databind";
             if (!databindFile.exists()) {
-                try {
-                    databindconn.get().connect();
-                    InputStream in = databindconn.get().getInputStream();
-                    byte[] bytes = new byte[3072];
-                    int length;
-                    FileOutputStream fileOutputStream = new FileOutputStream(databindFile);
-                    while ((length = in.read(bytes)) != -1) {
-                        fileOutputStream.write(bytes, 0, length);
-                    }
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    StackTrace.printStackTrace(e);
-                }
+                sendLackMessage(s);
+                download(databindconn, databindFile);
                 databindfinish.set(true);
             } else {
+                if (!DATABIND_MD5.equals(BasicUtil.getFileMD5(databindFile))) {
+                    sendInCompleteMessage(s);
+                    download(databindconn, databindFile);
+                }
                 databindfinish.set(true);
             }
         });
 
         pool.submit(() -> {
+            String s = "jackson core";
             if (!coreFile.exists()) {
-                try {
-                    coreconn.get().connect();
-                    InputStream in = coreconn.get().getInputStream();
-                    byte[] bytes = new byte[3072];
-                    int length;
-                    FileOutputStream fileOutputStream = new FileOutputStream(coreFile);
-                    while ((length = in.read(bytes)) != -1) {
-                        fileOutputStream.write(bytes, 0, length);
-                    }
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    StackTrace.printStackTrace(e);
-                }
+                sendLackMessage(s);
+                download(coreconn, coreFile);
                 corefinish.set(true);
             } else {
+                if (!CORE_MD5.equals(BasicUtil.getFileMD5(coreFile))) {
+                    sendInCompleteMessage(s);
+                    download(coreconn, coreFile);
+                }
                 corefinish.set(true);
             }
-
         });
 
         pool.submit(() -> {
+            String s = "jackson annotations";
             if (!annotationsFile.exists()) {
-                try {
-                    annotationsconn.get().connect();
-                    InputStream in = annotationsconn.get().getInputStream();
-                    byte[] bytes = new byte[3072];
-                    int length;
-                    FileOutputStream fileOutputStream = new FileOutputStream(annotationsFile);
-                    while ((length = in.read(bytes)) != -1) {
-                        fileOutputStream.write(bytes, 0, length);
-                    }
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    StackTrace.printStackTrace(e);
-                }
+                sendLackMessage(s);
+                download(annotationsconn, annotationsFile);
                 annotationsfinish.set(true);
             } else {
+                if (!ANNOTATIONS_MD5.equals(BasicUtil.getFileMD5(annotationsFile))) {
+                    sendInCompleteMessage(s);
+                    download(annotationsconn, annotationsFile);
+                }
                 annotationsfinish.set(true);
             }
         });
 
 
         pool.submit(() -> {
-            while (!databindfinish.get() || !corefinish.get() || !annotationsfinish.get()) {
-
+            while (true) {
+                if (databindfinish.get() && corefinish.get() && annotationsfinish.get()) {
+                    break;
+                }
             }
 
             URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{databind.get(), core.get(), annotations.get()}, ClassLoader.getSystemClassLoader());
@@ -170,5 +159,38 @@ public class JackSon {
             }
 
         });
+    }
+
+    private static void download(AtomicReference<HttpURLConnection> conn, File file) {
+        try {
+            conn.get().connect();
+            InputStream in = conn.get().getInputStream();
+            byte[] bytes = new byte[3072];
+            int length;
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            while ((length = in.read(bytes)) != -1) {
+                fileOutputStream.write(bytes, 0, length);
+            }
+            fileOutputStream.close();
+            sendDownloadCompleteMessage(file.getName());
+        } catch (IOException e) {
+            StackTrace.printStackTrace(e);
+        }
+    }
+
+    private static void sendLackMessage(String dependency) {
+        sendMessage(String.format("§7[§ePluginCore§7]§cLack of dependency: %s, §bstart downloading!", dependency));
+    }
+
+    private static void sendDownloadCompleteMessage(String dependency) {
+        sendMessage(String.format("§7[§ePluginCore§7]§2Dependency: %s download completed!", dependency));
+    }
+
+    private static void sendInCompleteMessage(String dependency) {
+        sendMessage(String.format("§7[§ePluginCore§7]§cDependency: %s is incomplete, §bstart downloading!", dependency));
+    }
+
+    private static void sendMessage(String message) {
+        Bukkit.getServer().getConsoleSender().sendMessage(message);
     }
 }
