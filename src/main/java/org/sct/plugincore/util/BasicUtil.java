@@ -2,12 +2,18 @@ package org.sct.plugincore.util;
 
 import org.bukkit.ChatColor;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.util.regex.Pattern.*;
+import static java.util.regex.Pattern.compile;
 
 public class BasicUtil {
 
@@ -47,6 +53,24 @@ public class BasicUtil {
 
     public static <T> String replace(String message, String var, T replace) {
         return message.replace(var, String.valueOf(replace));
+    }
+
+    public static String getFileMD5(File file) {
+        try {
+            byte[] bytes = new byte[8192];
+            int len = 0;
+            FileInputStream inputStream = new FileInputStream(file);
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            while ((len = inputStream.read(bytes)) != -1) {
+                messageDigest.update(bytes, 0, len);
+            }
+            inputStream.close();
+            byte[] md5bytes = messageDigest.digest();
+            BigInteger bigInteger = new BigInteger(1, md5bytes);
+            return bigInteger.toString(16);
+        }catch (IOException | NoSuchAlgorithmException e) {
+            return null;
+        }
     }
 
 }
