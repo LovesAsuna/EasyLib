@@ -16,7 +16,6 @@ public class PluginCoreAPI {
 
     @Getter
     private Reflections reflections;
-    private DataBaseManager dataBaseManager;
     @Getter
     private GitHubAPI gitHubAPI;
 
@@ -35,9 +34,9 @@ public class PluginCoreAPI {
         }
     }
 
-    public static enum dataBaseType {
+    public enum dataBaseType {
         MYSQL,
-        SQLITE;
+        SQLITE
     }
 
 }
