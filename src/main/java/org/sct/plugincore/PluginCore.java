@@ -26,7 +26,7 @@ public class PluginCore extends JavaPlugin {
 
     @Getter
     private static PluginCore instance;
-
+    @Getter
     private static PluginCoreAPI pluginCoreAPI;
 
     @Override
@@ -44,12 +44,8 @@ public class PluginCore extends JavaPlugin {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             FileUpdate.update(this, "config.yml", getDataFolder().getPath());
         });
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            getHookPlugins();
-        });
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            setDatabase();
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::getHookPlugins);
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::setDatabase);
     }
 
     @Override
@@ -60,9 +56,9 @@ public class PluginCore extends JavaPlugin {
     private void setDatabase() {
         String database = getConfig().getString("DataBase");
         database = "sqlite";
-        if (database.equalsIgnoreCase("sqlite")) {
+        if ("sqlite".equalsIgnoreCase(database)) {
             CoreData.setDataBaseManager(new SQLiteUtil());
-        } else if (database.equalsIgnoreCase("mysql")) {
+        } else if ("mysql".equalsIgnoreCase(database)) {
             CoreData.setDataBaseManager(new MysqlUtil());
         }
     }
@@ -97,7 +93,7 @@ public class PluginCore extends JavaPlugin {
         }
         StringBuffer depend = new StringBuffer();
         myDepend.stream().forEach(d -> {
-            depend.append("§a" + d + " ");
+            depend.append("§a").append(d).append(" ");
         });
         if (depend.length() != 0) {
             Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§bDepend: " + depend.toString());
@@ -105,7 +101,7 @@ public class PluginCore extends JavaPlugin {
 
         StringBuffer softDepend = new StringBuffer();
         mySoftDepend.stream().forEach(d -> {
-            softDepend.append("§a" + d + " ");
+            softDepend.append("§a").append(d).append(" ");
         });
 
         if (softDepend.length() != 0) {
@@ -113,7 +109,4 @@ public class PluginCore extends JavaPlugin {
         }
     }
 
-    public static PluginCoreAPI getPluginCoreAPI() {
-        return pluginCoreAPI;
-    }
 }
