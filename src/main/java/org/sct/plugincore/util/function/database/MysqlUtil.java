@@ -1,5 +1,7 @@
 package org.sct.plugincore.util.function.database;
 
+import org.sct.plugincore.api.DataBaseManager;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

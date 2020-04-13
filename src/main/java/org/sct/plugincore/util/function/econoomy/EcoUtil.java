@@ -5,17 +5,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public final class EcoUtil {
+public final class EcoUtil implements org.sct.plugincore.api.EcoAPI {
 
 
-    private static Economy economy = null;
+    private Economy economy = null;
 
     /**
      * 初始化MoneyUtil类
      *
      * @throws NullPointerException NullPointerException
      */
-    public static boolean loadVault() throws NullPointerException {
+    @Override
+    public boolean loadVault() throws NullPointerException {
         if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             return false;
         }
@@ -33,7 +34,8 @@ public final class EcoUtil {
      * @param player OfflinePlayer
      * @return double
      */
-    public static double get(OfflinePlayer player) {
+    @Override
+    public double get(OfflinePlayer player) {
         return economy.getBalance(player);
     }
 
@@ -44,7 +46,8 @@ public final class EcoUtil {
      * @param money  double
      * @return boolean
      */
-    public static boolean has(OfflinePlayer player, double money) {
+    @Override
+    public boolean has(OfflinePlayer player, double money) {
         return money <= get(player);
     }
 
@@ -54,7 +57,8 @@ public final class EcoUtil {
      * @param player OfflinePlayer
      * @param money  double
      */
-    public static void give(OfflinePlayer player, double money) {
+    @Override
+    public void give(OfflinePlayer player, double money) {
         economy.depositPlayer(player, money);
     }
 
@@ -64,7 +68,8 @@ public final class EcoUtil {
      * @param player OfflinePlayer
      * @param money  double
      */
-    public static void take(OfflinePlayer player, double money) {
+    @Override
+    public void take(OfflinePlayer player, double money) {
         economy.withdrawPlayer(player, money);
     }
 }

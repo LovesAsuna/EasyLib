@@ -13,10 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class BukkitObjectSerializerUtils {
-
-    private BukkitObjectSerializerUtils() {
-    }
+public final class BukkitObjectSerializerUtils implements org.sct.plugincore.api.SerializerAPI {
 
     /**
      * 单对象序列化为字符串
@@ -25,7 +22,8 @@ public final class BukkitObjectSerializerUtils {
      * @return 字符串
      * @throws IOException
      */
-    public static String singleObjectToString(Object object) throws IOException {
+    @Override
+    public String singleObjectToString(Object object) throws IOException {
         byte[] raw = singleObjectToByteArray(object);
 
         if (raw != null) {
@@ -42,7 +40,8 @@ public final class BukkitObjectSerializerUtils {
      * @return 字节数组
      * @throws IOException
      */
-    public static byte[] singleObjectToByteArray(Object object) throws IOException {
+    @Override
+    public byte[] singleObjectToByteArray(Object object) throws IOException {
         if (object instanceof ConfigurationSerializable || object instanceof Serializable) {
             ByteArrayOutputStream buf = new ByteArrayOutputStream();
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(buf);
@@ -63,7 +62,8 @@ public final class BukkitObjectSerializerUtils {
      * @return 字符串
      * @throws IOException
      */
-    public static String collectionToString(Collection<Object> objects) throws IOException {
+    @Override
+    public String collectionToString(Collection<Object> objects) throws IOException {
         byte[] raw = collectionToByteArray(objects);
 
         if (raw != null) {
@@ -80,7 +80,8 @@ public final class BukkitObjectSerializerUtils {
      * @return 字节数组
      * @throws IOException
      */
-    public static byte[] collectionToByteArray(Collection<Object> objects) throws IOException {
+    @Override
+    public byte[] collectionToByteArray(Collection<Object> objects) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         BukkitObjectOutputStream out = new BukkitObjectOutputStream(buf);
         List<Object> compatible = objects.stream()
@@ -105,7 +106,8 @@ public final class BukkitObjectSerializerUtils {
      * @return 实例对象
      * @throws IOException
      */
-    public static <T> T singleObjectFromString(String serialized, Class<T> classOfT) throws IOException {
+    @Override
+    public <T> T singleObjectFromString(String serialized, Class<T> classOfT) throws IOException {
         return singleObjectFromByteArray(Base64Coder.decodeLines(serialized), classOfT);
     }
 
@@ -117,8 +119,9 @@ public final class BukkitObjectSerializerUtils {
      * @return 实例对象
      * @throws IOException
      */
+    @Override
     @SuppressWarnings("unchecked")
-    public static <T> T singleObjectFromByteArray(byte[] serialized, Class<T> classOfT) throws IOException {
+    public <T> T singleObjectFromByteArray(byte[] serialized, Class<T> classOfT) throws IOException {
         ByteArrayInputStream buf = new ByteArrayInputStream(serialized);
         BukkitObjectInputStream in = new BukkitObjectInputStream(buf);
         T object = null;
@@ -143,7 +146,8 @@ public final class BukkitObjectSerializerUtils {
      * @return 实例对象集合
      * @throws IOException
      */
-    public static <T, C extends Collection<T>> C collectionFromString(String serialized, Class<C> classOfC, Class<T> classOfT) throws IOException {
+    @Override
+    public <T, C extends Collection<T>> C collectionFromString(String serialized, Class<C> classOfC, Class<T> classOfT) throws IOException {
         return collectionFromByteArray(Base64Coder.decodeLines(serialized), classOfC, classOfT);
     }
 
@@ -156,8 +160,9 @@ public final class BukkitObjectSerializerUtils {
      * @return 实例对象集合
      * @throws IOException
      */
+    @Override
     @SuppressWarnings("unchecked")
-    public static <T, C extends Collection<T>> C collectionFromByteArray(byte[] serialized, Class<C> classOfC, Class<T> classOfT) throws IOException {
+    public <T, C extends Collection<T>> C collectionFromByteArray(byte[] serialized, Class<C> classOfC, Class<T> classOfT) throws IOException {
         C objects = null;
 
         try {

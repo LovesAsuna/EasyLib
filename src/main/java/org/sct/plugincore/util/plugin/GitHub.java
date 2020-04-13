@@ -18,7 +18,8 @@ import java.util.Base64;
  * @date 2020/2/17 16:07
  */
 
-public class GitHubAPI {
+public class GitHub implements org.sct.plugincore.api.GitHubAPI {
+    @Override
     public String getAPI(String author, String repos) {
         StringBuffer buffer = new StringBuffer();
         String line;
@@ -39,6 +40,7 @@ public class GitHubAPI {
         return buffer.toString();
     }
 
+    @Override
     public String getRelease(String author, String repos, String auth) {
         StringBuffer buffer = new StringBuffer();
         String line;
@@ -61,7 +63,7 @@ public class GitHubAPI {
     }
 
     private String getReleaseInfo(String author, String repos, String path, String auth) {
-        String release = PluginCore.getPluginCoreAPI().getGitHubAPI().getRelease(author, repos, auth);
+        String release = getRelease(author, repos, auth);
         Object ObjectMapper = JackSon.getObjectMapper();
         try {
             Object JsonNode = JackSon.getReadTree().invoke(ObjectMapper, release);
@@ -71,10 +73,12 @@ public class GitHubAPI {
         }
     }
 
+    @Override
     public String getReleaseDetail(String author, String repos, String auth) {
         return getReleaseInfo(author, repos, "body", auth);
     }
 
+    @Override
     public String getNewestVersion(String author, String repos, String auth) {
         return getReleaseInfo(author, repos, "tag_name", auth);
     }
@@ -103,6 +107,7 @@ public class GitHubAPI {
         }
     }
 
+    @Override
     public void getUpdateDetail(CommandSender sender, JavaPlugin instance, String author, String auth) throws IOException {
         String pluginName = instance.getDescription().getName();
 

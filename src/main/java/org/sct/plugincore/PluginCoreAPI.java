@@ -1,10 +1,14 @@
 package org.sct.plugincore;
 
 import lombok.Getter;
-import org.sct.plugincore.util.function.database.DataBaseManager;
+import org.sct.plugincore.api.*;
+import org.sct.plugincore.api.DataBaseManager;
 import org.sct.plugincore.util.function.database.MysqlUtil;
 import org.sct.plugincore.util.function.database.SQLiteUtil;
-import org.sct.plugincore.util.plugin.GitHubAPI;
+import org.sct.plugincore.util.function.econoomy.EcoUtil;
+import org.sct.plugincore.util.function.item.MaterialUtil;
+import org.sct.plugincore.util.function.player.LocationUtil;
+import org.sct.plugincore.util.plugin.GitHub;
 import org.sct.plugincore.util.reflectutil.Reflections;
 
 /**
@@ -15,13 +19,22 @@ import org.sct.plugincore.util.reflectutil.Reflections;
 public class PluginCoreAPI {
 
     @Getter
-    private Reflections reflections;
+    private ReflectAPI reflectAPI;
     @Getter
     private GitHubAPI gitHubAPI;
+    @Getter
+    private MaterialAPI materialAPI;
+    @Getter
+    private LocationAPI locationAPI;
+    @Getter
+    private EcoAPI ecoAPI;
 
     protected PluginCoreAPI() {
-        reflections = new Reflections();
-        gitHubAPI = new GitHubAPI();
+        reflectAPI = new Reflections();
+        gitHubAPI = new GitHub();
+        materialAPI = new MaterialUtil();
+        locationAPI = new LocationUtil();
+        ecoAPI = new EcoUtil();
     }
 
     public DataBaseManager getDataBaseManager(dataBaseType type) {

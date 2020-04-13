@@ -27,24 +27,30 @@ public class CommandHandler implements TabExecutor {
         this.instance = instance;
     }
 
-    public void registerSubCommand(String commandName, SubCommand command) {
+    protected void registerSubCommand(String commandName, SubCommand command) {
         if (subCommandMap.containsKey(commandName)) {
             instance.getLogger().warning("发现重复子命令注册!");
         }
         subCommandMap.put(commandName, command);
     }
 
+    protected void onCommandError(CommandSender sender, String[] args) {
+        sender.sendMessage("§cPlease contact the server administrators if you believe that this is in error.");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (this.cmd.equalsIgnoreCase(cmd.getName())) {
             if (args.length == 0) {//如果命令没有参数
-                subCommandMap.get("info").execute(sender, args);
+                if (subCommandMap.containsKey("info")) {
+                    subCommandMap.get("info").execute(sender, args);
+                }
                 return true;
             }
 
             SubCommand subCommand = subCommandMap.get(args[0]);
             if (subCommand == null) {//如果参数不正确
-                sender.sendMessage("");
+                onCommandError(sender, args);
                 return true;
             }
             subCommand.execute(sender, args);

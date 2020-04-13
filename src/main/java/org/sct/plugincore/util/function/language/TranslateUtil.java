@@ -14,8 +14,9 @@ import java.net.URLEncoder;
  * @date 2020/2/22 21:45
  */
 
-public class TranslateUtil {
+public class TranslateUtil implements org.sct.plugincore.api.TranslateAPI {
 
+    @Override
     public String translate(String langFrom, String langTo, String word) {
         try {
             String urlString = "https://translate.googleapis.com/translate_a/single?" +

@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.OfflinePlayer;
-import org.sct.plugincore.util.function.database.DataBaseManager;
+import org.sct.plugincore.api.DataBaseManager;
 
 import java.util.HashMap;
 import java.util.Map;

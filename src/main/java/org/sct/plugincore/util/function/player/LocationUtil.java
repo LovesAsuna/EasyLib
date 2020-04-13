@@ -5,6 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.sct.plugincore.api.MaterialAPI;
+import org.sct.plugincore.api.ReflectAPI;
 import org.sct.plugincore.util.function.item.MaterialUtil;
 import org.sct.plugincore.util.reflectutil.Reflections;
 
@@ -19,21 +21,20 @@ import java.util.Set;
  */
 
 @SuppressWarnings("deprecation")
-public class LocationUtil {
+public class LocationUtil implements org.sct.plugincore.api.LocationAPI {
     private static Set<Material> WATER_TYPES;
     private static Set<Material> HOLLOW_MATERIALS;
     private static Set<Material> TRANSPARENT_MATERIALS;
-    private static MaterialUtil materialUtil;
-    private static Reflections reflections;
+    private static MaterialAPI materialAPI;
+    private static ReflectAPI reflectAPI;
     private static LocationUtil.Vector3D[] VOLUME;
-
 
     static {
         HOLLOW_MATERIALS = Sets.newHashSet();
         TRANSPARENT_MATERIALS = Sets.newHashSet();
-        materialUtil = new MaterialUtil();
-        reflections = new Reflections();
-        WATER_TYPES = reflections.getAllMatchingEnum(Material.class, new String[]{"WATER", "FLOWING_WATER"});
+        materialAPI = new MaterialUtil();
+        reflectAPI = new Reflections();
+        WATER_TYPES = reflectAPI.getAllMatchingEnum(Material.class, new String[]{"WATER", "FLOWING_WATER"});
         ;
         Material[] var0 = Material.values();
         int x = var0.length;
@@ -76,7 +77,8 @@ public class LocationUtil {
         }
     }
 
-    public static Location getSafeDestination(Location loc) throws Exception {
+    @Override
+    public Location getSafeDestination(Location loc) throws Exception {
         if (loc != null && loc.getWorld() != null) {
             World world = loc.getWorld();
             int x = loc.getBlockX();
@@ -137,22 +139,25 @@ public class LocationUtil {
         }
     }
 
-    public static boolean isBlockAboveAir(World world, int x, int y, int z) {
+    @Override
+    public boolean isBlockAboveAir(World world, int x, int y, int z) {
         return y > world.getMaxHeight() || HOLLOW_MATERIALS.contains(world.getBlockAt(x, y - 1, z).getType());
     }
 
-    public static boolean isBlockUnsafe(World world, int x, int y, int z) {
+    @Override
+    public boolean isBlockUnsafe(World world, int x, int y, int z) {
         return isBlockDamaging(world, x, y, z) || isBlockAboveAir(world, x, y, z);
     }
 
-    public static boolean isBlockDamaging(World world, int x, int y, int z) {
+    @Override
+    public boolean isBlockDamaging(World world, int x, int y, int z) {
         Block below = world.getBlockAt(x, y - 1, z);
         switch (below.getType()) {
             case LAVA:
             case FIRE:
                 return true;
             default:
-                if (MaterialUtil.isBed(below.getType())) {
+                if (materialAPI.isBed(below.getType())) {
                     return true;
                 } else {
                     try {
@@ -162,7 +167,7 @@ public class LocationUtil {
                     } catch (Exception var6) {
                     }
 
-                    Material PORTAL = materialUtil.getMaterial(new String[]{"NETHER_PORTAL", "PORTAL"});
+                    Material PORTAL = materialAPI.getMaterial(new String[]{"NETHER_PORTAL", "PORTAL"});
                     if (world.getBlockAt(x, y, z).getType() == PORTAL) {
                         return true;
                     } else {

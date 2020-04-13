@@ -21,7 +21,7 @@ import java.util.Set;
  * @date 2020/2/11 21:15
  */
 
-public class Reflections {
+public class Reflections implements org.sct.plugincore.api.ReflectAPI {
     private Class<?> CraftServerClass;
     private Class<?> CraftWorldClass;
     private Class<?> WorldServerClass;
@@ -216,6 +216,7 @@ public class Reflections {
 
     }
 
+    @Override
     public Object asNMSCopy(ItemStack itemStack) {
         try {
             Method var2 = this.CraftItemStack.getMethod("asNMSCopy", ItemStack.class);
@@ -225,6 +226,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public Object asBukkitCopy(Object var1) {
         try {
             Method var2 = this.CraftItemStack.getMethod("asBukkitCopy", this.IStack);
@@ -234,6 +236,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public void respawn(Player player) {
         try {
             Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object) null);
@@ -252,6 +255,7 @@ public class Reflections {
 
     }
 
+    @Override
     public Object getPlayerHandle(Player player) {
         Object getHandle = null;
 
@@ -286,6 +290,7 @@ public class Reflections {
         return var2;
     }
 
+    @Override
     public Class<?> getBukkitClass(String className) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + VersionChecker.Version.getCurrent().toString() + "." + className);
@@ -298,6 +303,7 @@ public class Reflections {
         return this.CraftWorldClass.cast(world);
     }
 
+    @Override
     public Class<?> getMinecraftClass(String className) {
         try {
             return Class.forName("net.minecraft.server." + VersionChecker.Version.getCurrent().toString() + "." + className);
@@ -306,6 +312,7 @@ public class Reflections {
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends Enum> Set<T> getAllMatchingEnum(Class<T> enumClass, String... names) {
         Set<T> set = Sets.newHashSet();
@@ -327,6 +334,7 @@ public class Reflections {
         return set;
     }
 
+    @Override
     public Object getNmsPlayer(Player player) {
         try {
             Method getHandle = player.getClass().getMethod("getHandle");
@@ -336,6 +344,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public Object getNmsScoreboard(Scoreboard var1) {
         try {
             Method var2 = var1.getClass().getMethod("getHandle");
@@ -345,6 +354,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public ItemStack setNbt(ItemStack itemStack, String string, String content) {
         if (itemStack == null) {
             return null;
@@ -372,6 +382,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public Object getNBT(ItemStack itemStack, String string) {
         if (itemStack == null) {
             return null;
@@ -398,6 +409,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public ItemStack removeNBT(ItemStack itemStack, String string) {
         if (itemStack == null) {
             return null;
@@ -427,6 +439,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public void sendAllPacket(Object packet) {
         try {
             Iterator var3 = Bukkit.getOnlinePlayers().iterator();
@@ -442,6 +455,7 @@ public class Reflections {
         }
     }
 
+    @Override
     public void sendListPacket(List<String> list, Object packet) {
         try {
             Iterator var4 = list.iterator();
@@ -458,6 +472,7 @@ public class Reflections {
 
     }
 
+    @Override
     public Class<?> getClass(String var1) {
         try {
             String var2 = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
