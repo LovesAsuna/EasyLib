@@ -3,7 +3,7 @@ package org.sct.plugincore.util.function.player;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.sct.plugincore.api.SerializerAPI;
+import org.sct.plugincore.PluginCore;
 import org.sct.plugincore.data.CoreData;
 import org.sct.plugincore.util.function.stack.StackTrace;
 
@@ -27,7 +27,7 @@ public class InvUtil {
             for (int i = 0; i < inv.getSize(); i++) {
                 ItemStack itemStack = inv.getItem(i);
                 int id = i;
-                String item = SerializerAPI.singleObjectToString(itemStack);
+                String item = PluginCore.getPluginCoreAPI().getSerializerAPI().singleObjectToString(itemStack);
                 try {
                     CoreData.getDataBaseManager().store(getUUID(player), id, item);
                 } catch (SQLException e) {
@@ -39,7 +39,7 @@ public class InvUtil {
             for (int i = 0; i < inv.getSize(); i++) {
                 ItemStack itemStack = inv.getItem(i);
                 int id = i;
-                String item = SerializerAPI.singleObjectToString(itemStack);
+                String item = PluginCore.getPluginCoreAPI().getSerializerAPI().singleObjectToString(itemStack);
                 try {
                     CoreData.getDataBaseManager().update(getUUID(player), id, item);
                 } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class InvUtil {
                 String string = resultSet.getString("ITEM");
                 ItemStack itemStack = null;
                 if (!"null".equalsIgnoreCase(string)) {
-                    itemStack = SerializerAPI.singleObjectFromString(string, ItemStack.class);
+                    itemStack = PluginCore.getPluginCoreAPI().getSerializerAPI().singleObjectFromString(string, ItemStack.class);
                     inv.setItem(id, itemStack);
                 }
                 inv.setItem(id, itemStack);

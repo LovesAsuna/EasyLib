@@ -8,6 +8,7 @@ import org.sct.plugincore.util.function.database.SQLiteUtil;
 import org.sct.plugincore.util.function.econoomy.EcoUtil;
 import org.sct.plugincore.util.function.item.MaterialUtil;
 import org.sct.plugincore.util.function.player.LocationUtil;
+import org.sct.plugincore.util.function.serializer.BukkitObjectSerializerUtils;
 import org.sct.plugincore.util.plugin.GitHub;
 import org.sct.plugincore.util.reflectutil.Reflections;
 
@@ -28,6 +29,8 @@ public class PluginCoreAPI {
     private LocationAPI locationAPI;
     @Getter
     private EcoAPI ecoAPI;
+    @Getter
+    private SerializerAPI serializerAPI;
 
     protected PluginCoreAPI() {
         reflectAPI = new Reflections();
@@ -35,6 +38,7 @@ public class PluginCoreAPI {
         materialAPI = new MaterialUtil();
         locationAPI = new LocationUtil();
         ecoAPI = new EcoUtil();
+        serializerAPI = new BukkitObjectSerializerUtils();
     }
 
     public DataBaseManager getDataBaseManager(dataBaseType type) {
