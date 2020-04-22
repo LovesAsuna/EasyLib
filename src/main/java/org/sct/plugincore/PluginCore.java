@@ -8,8 +8,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.plugincore.data.CoreData;
 import org.sct.plugincore.manager.ListenerManager;
-import org.sct.plugincore.util.function.database.MysqlUtil;
-import org.sct.plugincore.util.function.database.SQLiteUtil;
 import org.sct.plugincore.util.plugin.FileUpdate;
 import org.sct.plugincore.util.plugin.JackSon;
 import org.sct.plugincore.util.plugin.Metrics;
@@ -45,22 +43,11 @@ public class PluginCore extends JavaPlugin {
             FileUpdate.update(this, "config.yml", getDataFolder().getPath());
         });
         Bukkit.getScheduler().runTaskAsynchronously(this, this::getHookPlugins);
-        Bukkit.getScheduler().runTaskAsynchronously(this, this::setDatabase);
     }
 
     @Override
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§c插件已卸载");
-    }
-
-    private void setDatabase() {
-        String database = getConfig().getString("DataBase");
-        database = "sqlite";
-        if ("sqlite".equalsIgnoreCase(database)) {
-            CoreData.setDataBaseManager(new SQLiteUtil());
-        } else if ("mysql".equalsIgnoreCase(database)) {
-            CoreData.setDataBaseManager(new MysqlUtil());
-        }
     }
 
     private void getHookPlugins() {
@@ -100,7 +87,7 @@ public class PluginCore extends JavaPlugin {
         }
 
         StringBuffer softDepend = new StringBuffer();
-        mySoftDepend.stream().forEach(d -> {
+        mySoftDepend.parallelStream().forEach(d -> {
             softDepend.append("§a").append(d).append(" ");
         });
 

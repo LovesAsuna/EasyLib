@@ -1,5 +1,8 @@
 package org.sct.plugincore.util.plugin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -64,11 +67,11 @@ public class GitHub implements org.sct.plugincore.api.GitHubAPI {
 
     private String getReleaseInfo(String author, String repos, String path, String auth) {
         String release = getRelease(author, repos, auth);
-        Object ObjectMapper = JackSon.getObjectMapper();
+        ObjectMapper mapper = JackSon.getObjectMapper();
         try {
-            Object JsonNode = JackSon.getReadTree().invoke(ObjectMapper, release);
-            return (String) JackSon.getAsText().invoke(JackSon.getStringget().invoke(JackSon.getIntget().invoke(JsonNode, 0), path));
-        } catch (ReflectiveOperationException e) {
+            JsonNode root = mapper.readTree(release);
+            return root.get(0).get(path).asText();
+        } catch (JsonProcessingException e) {
             return null;
         }
     }

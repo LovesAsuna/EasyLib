@@ -68,7 +68,7 @@ public class BasicUtil {
             byte[] md5bytes = messageDigest.digest();
             BigInteger bigInteger = new BigInteger(1, md5bytes);
             return bigInteger.toString(16);
-        }catch (IOException | NoSuchAlgorithmException e) {
+        } catch (IOException | NoSuchAlgorithmException e) {
             return null;
         }
     }

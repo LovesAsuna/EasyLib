@@ -11,8 +11,10 @@ import java.sql.SQLException;
  */
 
 public class MysqlUtil implements DataBaseManager {
+    private String url;
 
-    public MysqlUtil() {
+    public MysqlUtil(String url) {
+        this.url = url;
     }
 
     @Override

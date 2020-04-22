@@ -1,5 +1,6 @@
 package org.sct.plugincore.util.plugin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.sct.plugincore.PluginCore;
@@ -11,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -30,15 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class JackSon {
     @Getter
-    private static Object ObjectMapper;
-    @Getter
-    private static Method readTree;
-    @Getter
-    private static Method intget;
-    @Getter
-    private static Method stringget;
-    @Getter
-    private static Method asText;
+    private static ObjectMapper ObjectMapper;
     @Getter
     private static boolean downloadDepen = false;
 
@@ -148,12 +140,7 @@ public class JackSon {
 
                 Constructor<?> constructor = ObjectMapperClass.getDeclaredConstructor();
 
-                readTree = ObjectMapperClass.getDeclaredMethod("readTree", String.class);
-                intget = JsonNode.getDeclaredMethod("get", int.class);
-                stringget = JsonNode.getDeclaredMethod("get", String.class);
-                asText = JsonNode.getDeclaredMethod("asText");
-
-                ObjectMapper = constructor.newInstance();
+                ObjectMapper = (ObjectMapper) constructor.newInstance();
             } catch (ReflectiveOperationException e) {
                 StackTrace.printStackTrace(e);
             }

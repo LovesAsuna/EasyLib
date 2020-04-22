@@ -41,11 +41,11 @@ public class PluginCoreAPI {
         serializerAPI = new BukkitObjectSerializerUtils();
     }
 
-    public DataBaseManager getDataBaseManager(dataBaseType type) {
+    public DataBaseManager getDataBaseManager(dataBaseType type,String url) {
         if (type == dataBaseType.MYSQL) {
-            return new MysqlUtil();
+            return new MysqlUtil(url);
         } else if (type == dataBaseType.SQLITE) {
-            return new SQLiteUtil();
+            return new SQLiteUtil(url);
         } else {
             return null;
         }

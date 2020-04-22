@@ -1,10 +1,8 @@
 package org.sct.plugincore.util.function.database;
 
-import org.sct.plugincore.PluginCore;
 import org.sct.plugincore.api.DataBaseManager;
 import org.sct.plugincore.util.function.stack.StackTrace;
 
-import java.io.File;
 import java.sql.*;
 
 /**
@@ -18,9 +16,9 @@ public class SQLiteUtil implements DataBaseManager {
     private String url;
 
 
-    public SQLiteUtil() {
+    public SQLiteUtil(String url) {
         try {
-            url = "jdbc:sqlite:" + PluginCore.getInstance().getDataFolder().getPath() + File.separator + "data.db";
+            this.url = url;
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
         } catch (SQLException e) {

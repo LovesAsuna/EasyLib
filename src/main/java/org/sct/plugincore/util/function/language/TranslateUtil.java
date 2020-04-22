@@ -1,5 +1,8 @@
 package org.sct.plugincore.util.function.language;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.sct.plugincore.util.plugin.JackSon;
 
 import java.io.BufferedReader;
@@ -47,11 +50,11 @@ public class TranslateUtil implements org.sct.plugincore.api.TranslateAPI {
     }
 
     private static String parseResult(String inputJson) {
+        ObjectMapper mapper = JackSon.getObjectMapper();
         try {
-            Object ObjectMapper = JackSon.getObjectMapper();
-            Object JsonNode = JackSon.getReadTree().invoke(ObjectMapper, inputJson);
-            return (String) JackSon.getAsText().invoke(JackSon.getIntget().invoke(JackSon.getIntget().invoke(JackSon.getIntget().invoke(JsonNode, 0), 0), 0));
-        } catch (ReflectiveOperationException e) {
+            JsonNode root = mapper.readTree(inputJson);
+            return root.get(0).get(0).get(0).asText();
+        } catch (JsonProcessingException e) {
             return null;
         }
     }
