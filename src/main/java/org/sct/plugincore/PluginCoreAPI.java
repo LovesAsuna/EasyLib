@@ -32,7 +32,7 @@ public class PluginCoreAPI {
     @Getter
     private SerializerAPI serializerAPI;
 
-    protected PluginCoreAPI() {
+    public PluginCoreAPI() {
         reflectAPI = new Reflections();
         gitHubAPI = new GitHub();
         materialAPI = new MaterialUtil();

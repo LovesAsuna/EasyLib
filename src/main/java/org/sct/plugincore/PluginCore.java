@@ -2,6 +2,7 @@ package org.sct.plugincore;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.Plugin;
@@ -24,19 +25,16 @@ public class PluginCore extends JavaPlugin {
 
     @Getter
     private static PluginCore instance;
-    @Getter
+    @Getter @Setter
     private static PluginCoreAPI pluginCoreAPI;
 
     @Override
     public void onEnable() {
         instance = this;
         Metrics metrics = new Metrics(this, 6909);
-        pluginCoreAPI = new PluginCoreAPI();
+        JackSon.initJackson();
         saveDefaultConfig();
         CoreData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
-        if (CoreData.getAutoupdate()) {
-            JackSon.initJackson();
-        }
         ListenerManager.registerListener();
         Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§2插件已加载");
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {

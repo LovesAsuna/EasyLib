@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.sct.plugincore.PluginCore;
+import org.sct.plugincore.PluginCoreAPI;
 import org.sct.plugincore.util.BasicUtil;
 import org.sct.plugincore.util.function.stack.StackTrace;
 
@@ -11,10 +12,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -133,14 +133,14 @@ public class JackSon {
                 }
             }
 
-            URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{databind.get(), core.get(), annotations.get()}, ClassLoader.getSystemClassLoader());
             try {
-                Class<?> ObjectMapperClass = urlClassLoader.loadClass("com.fasterxml.jackson.databind.ObjectMapper");
-                Class<?> JsonNode = urlClassLoader.loadClass("com.fasterxml.jackson.databind.JsonNode");
-
-                Constructor<?> constructor = ObjectMapperClass.getDeclaredConstructor();
-
-                ObjectMapper = (ObjectMapper) constructor.newInstance();
+                Method addURL = Class.forName("java.net.URLClassLoader").getDeclaredMethod("addURL", URL.class);
+                addURL.setAccessible(true);
+                addURL.invoke(ClassLoader.getSystemClassLoader(), databind.get());
+                addURL.invoke(ClassLoader.getSystemClassLoader(), core.get());
+                addURL.invoke(ClassLoader.getSystemClassLoader(),  annotations.get());
+                ObjectMapper = new ObjectMapper();
+                PluginCore.setPluginCoreAPI(new PluginCoreAPI());
             } catch (ReflectiveOperationException e) {
                 StackTrace.printStackTrace(e);
             }
