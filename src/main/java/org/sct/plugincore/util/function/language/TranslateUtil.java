@@ -3,7 +3,7 @@ package org.sct.plugincore.util.function.language;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.sct.plugincore.util.plugin.JackSon;
+import org.sct.plugincore.data.CoreData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class TranslateUtil implements org.sct.plugincore.api.TranslateAPI {
     }
 
     private static String parseResult(String inputJson) {
-        ObjectMapper mapper = JackSon.getObjectMapper();
+        ObjectMapper mapper = CoreData.getObjectMapper();
         try {
             JsonNode root = mapper.readTree(inputJson);
             return root.get(0).get(0).get(0).asText();

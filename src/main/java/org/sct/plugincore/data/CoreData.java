@@ -1,5 +1,6 @@
 package org.sct.plugincore.data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,10 @@ public class CoreData {
     @Getter
     @Setter
     private static Boolean autoupdate;
+
+    @Getter
+    @Setter
+    private static ObjectMapper objectMapper;
 
     static {
         newestversion = Maps.newHashMap();

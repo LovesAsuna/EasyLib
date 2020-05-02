@@ -9,8 +9,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.plugincore.data.CoreData;
 import org.sct.plugincore.manager.ListenerManager;
+import org.sct.plugincore.util.plugin.Dependence;
 import org.sct.plugincore.util.plugin.FileUpdate;
-import org.sct.plugincore.util.plugin.JackSon;
 import org.sct.plugincore.util.plugin.Metrics;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public class PluginCore extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Metrics metrics = new Metrics(this, 6909);
-        JackSon.initJackson();
+        Dependence.init();
         saveDefaultConfig();
         CoreData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
         ListenerManager.registerListener();

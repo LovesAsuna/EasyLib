@@ -1,5 +1,5 @@
 name: PluginCore
-version: 2.1-SNAPSHOT
+version: 2.3-SNAPSHOT
 main: org.sct.plugincore.PluginCore
 depend: [Vault]
 api-version: 1.13

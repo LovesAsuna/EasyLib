@@ -7,11 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.plugincore.PluginCore;
+import org.sct.plugincore.data.CoreData;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
@@ -67,7 +65,7 @@ public class GitHub implements org.sct.plugincore.api.GitHubAPI {
 
     private String getReleaseInfo(String author, String repos, String path, String auth) {
         String release = getRelease(author, repos, auth);
-        ObjectMapper mapper = JackSon.getObjectMapper();
+        ObjectMapper mapper = CoreData.getObjectMapper();
         try {
             JsonNode root = mapper.readTree(release);
             return root.get(0).get(path).asText();
@@ -118,5 +116,17 @@ public class GitHub implements org.sct.plugincore.api.GitHubAPI {
         sender.sendMessage("§e===============================================");
         sender.sendMessage(detail);
         sender.sendMessage("§e===============================================");
+    }
+
+    public boolean download(CommandSender sender, JavaPlugin instance, String author) {
+        String pluginName = instance.getDescription().getName();
+        Bukkit.getScheduler().runTaskAsynchronously(PluginCore.getInstance(), () -> {
+            String savePath = instance.getDataFolder().getPath() + "\\update";
+            String fileName = pluginName + ".jar";
+            DownloadUtil.download("https://github.com/" + author + "/" + pluginName + "/releases/download/" + CoreData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", fileName, savePath);
+            sender.sendMessage("§7[§e" + pluginName + "§7]§2文件下载成功，已保存在" + savePath + File.separator + fileName);
+            return;
+        });
+        return true;
     }
 }
