@@ -118,6 +118,7 @@ public class GitHub implements org.sct.plugincore.api.GitHubAPI {
         sender.sendMessage("§e===============================================");
     }
 
+    @Override
     public boolean download(CommandSender sender, JavaPlugin instance, String author) {
         String pluginName = instance.getDescription().getName();
         Bukkit.getScheduler().runTaskAsynchronously(PluginCore.getInstance(), () -> {

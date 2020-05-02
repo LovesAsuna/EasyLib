@@ -25,8 +25,8 @@ public class PluginCore extends JavaPlugin {
 
     @Getter
     private static PluginCore instance;
-    @Getter @Setter
-    private static PluginCoreAPI pluginCoreAPI;
+    @Setter
+    public static PluginCoreAPI pluginCoreAPI;
 
     @Override
     public void onEnable() {
@@ -91,6 +91,14 @@ public class PluginCore extends JavaPlugin {
 
         if (softDepend.length() != 0) {
             Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§bSoftDepend: " + softDepend.toString());
+        }
+    }
+
+    public static PluginCoreAPI getPluginCoreAPI() {
+        while (true) {
+            if (pluginCoreAPI != null) {
+                return pluginCoreAPI;
+            }
         }
     }
 

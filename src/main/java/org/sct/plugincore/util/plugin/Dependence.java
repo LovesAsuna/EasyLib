@@ -132,7 +132,7 @@ public class Dependence {
         }
         downloadDepen = true;
 
-        Bukkit.getScheduler().runTaskAsynchronously(PluginCore.getInstance(), () -> {
+        CoreData.getScheduledpool().execute(() -> {
             Dependence[] dependences = {
                     new Dependence("jackson-databind-2.10.3.jar", DependenceData.JACKSON_DATABIND_URL, DependenceData.JACKSON_DATABIND_MD5),
                     new Dependence("jackson-core-2.10.3.jar", DependenceData.JACKSON_CORE_URL, DependenceData.JACKSON_CORE_MD5),
@@ -178,6 +178,7 @@ public class Dependence {
             CoreData.setObjectMapper(new ObjectMapper());
             PluginCore.setPluginCoreAPI(new PluginCoreAPI());
         });
+
 
     }
 

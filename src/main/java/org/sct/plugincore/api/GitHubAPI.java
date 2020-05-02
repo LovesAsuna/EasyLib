@@ -15,4 +15,6 @@ public interface GitHubAPI {
     String getNewestVersion(String author, String repos, String auth);
 
     void getUpdateDetail(CommandSender sender, JavaPlugin instance, String author, String auth) throws IOException;
+
+    boolean download(CommandSender sender, JavaPlugin instance, String author);
 }

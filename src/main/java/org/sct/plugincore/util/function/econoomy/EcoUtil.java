@@ -13,10 +13,9 @@ public final class EcoUtil implements org.sct.plugincore.api.EcoAPI {
     /**
      * 初始化MoneyUtil类
      *
-     * @throws NullPointerException NullPointerException
      */
     @Override
-    public boolean loadVault() throws NullPointerException {
+    public boolean loadVault() {
         if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             return false;
         }
