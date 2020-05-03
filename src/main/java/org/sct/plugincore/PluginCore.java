@@ -36,7 +36,6 @@ public class PluginCore extends JavaPlugin {
         saveDefaultConfig();
         CoreData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
         ListenerManager.registerListener();
-        Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§2插件已加载");
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             FileUpdate.update(this, "config.yml", getDataFolder().getPath());
         });
@@ -45,7 +44,7 @@ public class PluginCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7]§c插件已卸载");
+        Bukkit.getConsoleSender().sendMessage("§7[§ePluginCore§7] §cDisabled!");
     }
 
     private void getHookPlugins() {

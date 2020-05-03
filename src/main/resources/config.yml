@@ -1,3 +1,10 @@
+# DataBase type that you want
 DataBase: sqlite
+# whether check if there is an update while starting server
 AutoUpdate: true
+# whether show update detail if there is an update
 ShowUpdateMsg: false
+# Dependencies that you want to use
+Dependencies:
+  # make plugins support kotlin
+  Kotlin: true

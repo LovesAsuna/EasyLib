@@ -19,6 +19,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -133,17 +135,18 @@ public class Dependence {
         downloadDepen = true;
 
         CoreData.getScheduledpool().execute(() -> {
-            Dependence[] dependences = {
-                    new Dependence("jackson-databind-2.10.3.jar", DependenceData.JACKSON_DATABIND_URL, DependenceData.JACKSON_DATABIND_MD5),
-                    new Dependence("jackson-core-2.10.3.jar", DependenceData.JACKSON_CORE_URL, DependenceData.JACKSON_CORE_MD5),
-                    new Dependence("jackson-annotations-2.10.3.jar", DependenceData.JACKSON_ANNOTATIONS_URL, DependenceData.JACKSON_ANNOTATIONS_MD5),
+            List<Dependence> dependences = new ArrayList<>();
+            dependences.add(new Dependence("jackson-databind-2.10.3.jar", DependenceData.JACKSON_DATABIND_URL, DependenceData.JACKSON_DATABIND_MD5));
+            dependences.add(new Dependence("jackson-core-2.10.3.jar", DependenceData.JACKSON_CORE_URL, DependenceData.JACKSON_CORE_MD5));
+            dependences.add(new Dependence("jackson-annotations-2.10.3.jar", DependenceData.JACKSON_ANNOTATIONS_URL, DependenceData.JACKSON_ANNOTATIONS_MD5));
 
-                    new Dependence("annotations-19.0.0.jar", DependenceData.KOTLIN_STDLIB_ANNOTATIONS_URL, DependenceData.KOTLIN_STDLIB_ANNOTATIONS_MD5),
-                    new Dependence("kotlin-stdlib-1.3.72.jar", DependenceData.KOTLIN_STDLIB_URL, DependenceData.KOTLIN_STDLIB_MD5),
-                    new Dependence("kotlin-stdlib-common-1.3.72.jar", DependenceData.KOTLIN_STDLIB_COMMON_URL, DependenceData.KOTLIN_STDLIB_COMMON_MD5),
-                    new Dependence("kotlin-stdlib-jdk7-1.3.72.jar", DependenceData.KOTLIN_STDLIB_JDK7_URL, DependenceData.KOTLIN_STDLIB_JDK7_MD5),
-                    new Dependence("kotlin-stdlib-jdk8-1.3.72.jar", DependenceData.KOTLIN_STDLIB_JDK8_URL, DependenceData.KOTLIN_STDLIB_JDK8_MD5)
-            };
+            if (PluginCore.getInstance().getConfig().getBoolean("Dependencies.Kotlin")) {
+                dependences.add(new Dependence("annotations-19.0.0.jar", DependenceData.KOTLIN_STDLIB_ANNOTATIONS_URL, DependenceData.KOTLIN_STDLIB_ANNOTATIONS_MD5));
+                dependences.add(new Dependence("kotlin-stdlib-1.3.72.jar", DependenceData.KOTLIN_STDLIB_URL, DependenceData.KOTLIN_STDLIB_MD5));
+                dependences.add(new Dependence("kotlin-stdlib-common-1.3.72.jar", DependenceData.KOTLIN_STDLIB_COMMON_URL, DependenceData.KOTLIN_STDLIB_COMMON_MD5));
+                dependences.add(new Dependence("kotlin-stdlib-jdk7-1.3.72.jar", DependenceData.KOTLIN_STDLIB_JDK7_URL, DependenceData.KOTLIN_STDLIB_JDK7_MD5));
+                dependences.add(new Dependence("kotlin-stdlib-jdk8-1.3.72.jar", DependenceData.KOTLIN_STDLIB_JDK8_URL, DependenceData.KOTLIN_STDLIB_JDK8_MD5));
+            }
 
             for (Dependence dependence : dependences) {
                 Dependence.download(dependence);
