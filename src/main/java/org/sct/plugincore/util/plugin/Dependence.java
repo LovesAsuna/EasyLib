@@ -171,7 +171,7 @@ public class Dependence {
                 addURL = Class.forName("java.net.URLClassLoader").getDeclaredMethod("addURL", URL.class);
                 addURL.setAccessible(true);
                 for (Dependence dependence : dependences) {
-                    addURL.invoke(ClassLoader.getSystemClassLoader(), dependence.getFileURL());
+                    addURL.invoke(PluginCore.class.getClassLoader(), dependence.getFileURL());
                     sendLoadMessage(dependence.getFileName());
                 }
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
