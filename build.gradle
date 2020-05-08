@@ -44,8 +44,8 @@ tasks.withType(JavaCompile) {
 task copyFile(type: Copy, dependsOn: shadowJar) {
     from('build/libs/')
     into('E:/work/1.15.2test/plugins/')
-    include('PluginCore*.jar')
+    include('EasyLib*.jar')
     rename {
-        "PluginCore.jar"
+        "EasyLib.jar"
     }
 }

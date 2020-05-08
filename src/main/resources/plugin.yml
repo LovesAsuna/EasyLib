@@ -1,6 +1,6 @@
-name: PluginCore
+name: EasyLib
 version: 2.3-SNAPSHOT
-main: org.sct.plugincore.PluginCore
+main: org.sct.easylib.EasyLib
 depend: [Vault]
 api-version: 1.13
 description: ""
