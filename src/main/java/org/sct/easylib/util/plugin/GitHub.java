@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.easylib.EasyLib;
-import org.sct.easylib.data.CoreData;
+import org.sct.easylib.data.LibData;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -65,7 +65,7 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
 
     private String getReleaseInfo(String author, String repos, String path, String auth) {
         String release = getRelease(author, repos, auth);
-        ObjectMapper mapper = CoreData.getObjectMapper();
+        ObjectMapper mapper = LibData.getObjectMapper();
         try {
             JsonNode root = mapper.readTree(release);
             return root.get(0).get(path).asText();
@@ -124,7 +124,7 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
         Bukkit.getScheduler().runTaskAsynchronously(EasyLib.getInstance(), () -> {
             String savePath = instance.getDataFolder().getPath() + "\\update";
             String fileName = pluginName + ".jar";
-            DownloadUtil.download("https://github.com/" + author + "/" + pluginName + "/releases/download/" + CoreData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", fileName, savePath);
+            DownloadUtil.download("https://github.com/" + author + "/" + pluginName + "/releases/download/" + LibData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", fileName, savePath);
             sender.sendMessage("§7[§e" + pluginName + "§7]§2文件下载成功，已保存在" + savePath + File.separator + fileName);
             return;
         });

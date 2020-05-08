@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.sct.easylib.EasyLib;
 import org.sct.easylib.EasyLibAPI;
-import org.sct.easylib.data.CoreData;
+import org.sct.easylib.data.LibData;
 import org.sct.easylib.data.DependenceData;
 import org.sct.easylib.util.BasicUtil;
 import org.sct.easylib.util.function.stack.StackTrace;
@@ -70,10 +70,10 @@ public class Dependence {
                 }
             }
 
-            URL url = null;
+
             AtomicReference<HttpURLConnection> conn = new AtomicReference<>();
             try {
-                url = new URL(dependence.getUrl());
+                URL url = new URL(dependence.getUrl());
                 conn.set((HttpURLConnection) url.openConnection());
             } catch (IOException e) {
                 StackTrace.printStackTrace(e);
@@ -134,7 +134,7 @@ public class Dependence {
         }
         downloadDepen = true;
 
-        CoreData.getScheduledpool().execute(() -> {
+        LibData.getScheduledpool().execute(() -> {
             List<Dependence> dependences = new ArrayList<>();
             dependences.add(new Dependence("jackson-databind-2.10.3.jar", DependenceData.JACKSON_DATABIND_URL, DependenceData.JACKSON_DATABIND_MD5));
             dependences.add(new Dependence("jackson-core-2.10.3.jar", DependenceData.JACKSON_CORE_URL, DependenceData.JACKSON_CORE_MD5));
@@ -178,7 +178,7 @@ public class Dependence {
                 StackTrace.printStackTrace(e);
             }
 
-            CoreData.setObjectMapper(new ObjectMapper());
+            LibData.setObjectMapper(new ObjectMapper());
             EasyLib.setEasyLibAPI(new EasyLibAPI());
         });
 

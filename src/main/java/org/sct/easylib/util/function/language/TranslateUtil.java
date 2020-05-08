@@ -3,7 +3,7 @@ package org.sct.easylib.util.function.language;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.sct.easylib.data.CoreData;
+import org.sct.easylib.data.LibData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class TranslateUtil implements org.sct.easylib.api.TranslateAPI {
     }
 
     private static String parseResult(String inputJson) {
-        ObjectMapper mapper = CoreData.getObjectMapper();
+        ObjectMapper mapper = LibData.getObjectMapper();
         try {
             JsonNode root = mapper.readTree(inputJson);
             return root.get(0).get(0).get(0).asText();

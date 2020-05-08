@@ -16,7 +16,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * @date 2020/2/15 20:11
  */
 
-public class CoreData {
+public class LibData {
 
     @Getter
     private static Map<String, String> newestversion;

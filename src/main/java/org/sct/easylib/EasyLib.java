@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.sct.easylib.data.CoreData;
+import org.sct.easylib.data.LibData;
 import org.sct.easylib.manager.ListenerManager;
 import org.sct.easylib.util.plugin.Dependence;
 import org.sct.easylib.util.plugin.FileUpdate;
@@ -31,10 +31,10 @@ public class EasyLib extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        Metrics metrics = new Metrics(this, 6909);
+        new Metrics(this, 6909);
         Dependence.init();
         saveDefaultConfig();
-        CoreData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
+        LibData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
         ListenerManager.registerListener();
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             FileUpdate.update(this, "config.yml", getDataFolder().getPath());
@@ -94,10 +94,16 @@ public class EasyLib extends JavaPlugin {
     }
 
     public static EasyLibAPI getEasyLibAPI() {
-        while (true) {
-            if (easyLibAPI != null) {
-                return easyLibAPI;
+        try {
+            for (int i = 0; i < 20; i++) {
+                Thread.sleep(250);
+                if (easyLibAPI != null) {
+                    return easyLibAPI;
+                }
             }
+            return null;
+        } catch (InterruptedException e) {
+            return null;
         }
     }
 

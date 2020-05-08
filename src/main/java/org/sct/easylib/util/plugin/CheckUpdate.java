@@ -3,7 +3,7 @@ package org.sct.easylib.util.plugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.easylib.EasyLib;
-import org.sct.easylib.data.CoreData;
+import org.sct.easylib.data.LibData;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class CheckUpdate {
 
     public static void check(CommandSender sender, JavaPlugin instance, String author, String auth) {
-        if (!CoreData.getAutoupdate()) {
+        if (!LibData.getAutoupdate()) {
             return;
         }
         String pluginName = instance.getDescription().getName();
@@ -25,12 +25,12 @@ public class CheckUpdate {
                 return;
             }
             String currentVersion = instance.getDescription().getVersion();
-            CoreData.getNewestversion().put(instance.getName(), newestVersion);
+            LibData.getNewestversion().put(instance.getName(), newestVersion);
 
             if (currentVersion.equalsIgnoreCase(newestVersion)) {
                 instance.getServer().getConsoleSender().sendMessage("§7[§e" + pluginName + "§7] §2你正在使用最新的" + currentVersion + "版本");
             } else {
-                instance.getServer().getConsoleSender().sendMessage("§7[§e" + pluginName + "§7] §c最新版本为" + CoreData.getNewestversion().get(instance.getName()));
+                instance.getServer().getConsoleSender().sendMessage("§7[§e" + pluginName + "§7] §c最新版本为" + LibData.getNewestversion().get(instance.getName()));
                 if (EasyLib.getInstance().getConfig().getBoolean("ShowUpdateMsg")) {
                     EasyLib.getEasyLibAPI().getGitHubAPI().getUpdateDetail(sender, instance, author, auth);
                 }
