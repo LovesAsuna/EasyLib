@@ -25,6 +25,7 @@ public class InvUtil {
         dataBaseManager = EasyLib.getEasyLibAPI().getDataBaseManager(EasyLibAPI.dataBaseType.SQLITE, "jdbc:sqlite:" + EasyLib.getInstance().getDataFolder().getPath() + File.separator + "data.db");
     }
 
+    // TODO 重写背包序列化功能
     public static boolean store(Player player) throws IOException {
         Inventory inv = player.getInventory();
         if (!dataBaseManager.checkTable(getUUID(player))) {

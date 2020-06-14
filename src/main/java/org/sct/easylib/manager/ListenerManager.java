@@ -3,8 +3,6 @@ package org.sct.easylib.manager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.sct.easylib.EasyLib;
-import org.sct.easylib.listener.PlayerJoin;
-import org.sct.easylib.listener.PlayerQuit;
 
 public class ListenerManager {
     private static void register(Listener listener) {
@@ -12,7 +10,7 @@ public class ListenerManager {
     }
 
     public static void registerListener() {
-        register(new PlayerQuit());
-        register(new PlayerJoin());
+        // register(new PlayerQuit());
+        //  register(new PlayerJoin());
     }
 }
