@@ -8,7 +8,6 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.easylib.data.LibData;
-import org.sct.easylib.manager.ListenerManager;
 import org.sct.easylib.util.plugin.Dependence;
 import org.sct.easylib.util.plugin.FileUpdate;
 import org.sct.easylib.util.plugin.Metrics;
@@ -35,7 +34,6 @@ public class EasyLib extends JavaPlugin {
         Dependence.init();
         saveDefaultConfig();
         LibData.setAutoupdate(getConfig().getBoolean("AutoUpdate"));
-        ListenerManager.registerListener();
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             FileUpdate.update(this, "config.yml", getDataFolder().getPath());
         });
@@ -76,7 +74,7 @@ public class EasyLib extends JavaPlugin {
             }
         }
         StringBuffer depend = new StringBuffer();
-        myDepend.stream().forEach(d -> {
+        myDepend.forEach(d -> {
             depend.append("§a").append(d).append(" ");
         });
         if (depend.length() != 0) {
