@@ -11,9 +11,9 @@ import java.lang.reflect.Method;
  * @date 2020/2/27 19:13
  */
 
-public class Definer {
+public class ClassUtil {
 
-    protected Definer() {
+    protected ClassUtil() {
     }
 
     public static Class<?> getInstanceClass(String path, String instanceName) {
@@ -42,5 +42,14 @@ public class Definer {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean forceLoad(Class<?> className) {
+        try {
+            Class.forName(className.getName());
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }
