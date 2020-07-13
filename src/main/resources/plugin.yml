@@ -1,5 +1,5 @@
 name: EasyLib
-version: 2.3-SNAPSHOT
+version: 2.4-SNAPSHOT
 main: org.sct.easylib.EasyLib
 depend: [Vault]
 loadbefore:
