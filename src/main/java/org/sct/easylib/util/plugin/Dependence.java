@@ -52,7 +52,7 @@ public class Dependence {
     }
 
     @SneakyThrows
-    public Dependence(String fileName, DependenceData.URL url, DependenceData.MD5 MD5) {
+    public Dependence(String fileName, DependenceData.DependenceUrl url, DependenceData.MD5 MD5) {
         this.fileName = fileName;
         this.MD5 = MD5.getData();
         this.url = url.getData();
@@ -136,16 +136,16 @@ public class Dependence {
 
         LibData.getScheduledpool().execute(() -> {
             List<Dependence> dependences = new ArrayList<>();
-            dependences.add(new Dependence("jackson-databind-2.10.3.jar", DependenceData.URL.JACKSON_DATABIND, DependenceData.MD5.JACKSON_DATABIND));
-            dependences.add(new Dependence("jackson-core-2.10.3.jar", DependenceData.URL.JACKSON_CORE, DependenceData.MD5.JACKSON_CORE));
-            dependences.add(new Dependence("jackson-annotations-2.10.3.jar", DependenceData.URL.JACKSON_ANNOTATIONS, DependenceData.MD5.JACKSON_ANNOTATIONS));
+            dependences.add(new Dependence("jackson-databind-2.10.3.jar", DependenceData.Maven.JACKSON_DATABIND, DependenceData.MD5.JACKSON_DATABIND));
+            dependences.add(new Dependence("jackson-core-2.10.3.jar", DependenceData.Maven.JACKSON_CORE, DependenceData.MD5.JACKSON_CORE));
+            dependences.add(new Dependence("jackson-annotations-2.10.3.jar", DependenceData.Maven.JACKSON_ANNOTATIONS, DependenceData.MD5.JACKSON_ANNOTATIONS));
 
             if (EasyLib.getInstance().getConfig().getBoolean("Dependencies.Kotlin")) {
-                dependences.add(new Dependence("annotations-19.0.0.jar", DependenceData.URL.KOTLIN_STDLIB_ANNOTATIONS, DependenceData.MD5.KOTLIN_STDLIB_ANNOTATIONS));
-                dependences.add(new Dependence("kotlin-stdlib-1.3.72.jar", DependenceData.URL.KOTLIN_STDLIB, DependenceData.MD5.KOTLIN_STDLIB));
-                dependences.add(new Dependence("kotlin-stdlib-common-1.3.72.jar", DependenceData.URL.KOTLIN_STDLIB_COMMON, DependenceData.MD5.KOTLIN_STDLIB_COMMON));
-                dependences.add(new Dependence("kotlin-stdlib-jdk7-1.3.72.jar", DependenceData.URL.KOTLIN_STDLIB_JDK7, DependenceData.MD5.KOTLIN_STDLIB_JDK7));
-                dependences.add(new Dependence("kotlin-stdlib-jdk8-1.3.72.jar", DependenceData.URL.KOTLIN_STDLIB_JDK8, DependenceData.MD5.KOTLIN_STDLIB_JDK8));
+                dependences.add(new Dependence("annotations-19.0.0.jar", DependenceData.Maven.KOTLIN_STDLIB_ANNOTATIONS, DependenceData.MD5.KOTLIN_STDLIB_ANNOTATIONS));
+                dependences.add(new Dependence("kotlin-stdlib-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB, DependenceData.MD5.KOTLIN_STDLIB));
+                dependences.add(new Dependence("kotlin-stdlib-common-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB_COMMON, DependenceData.MD5.KOTLIN_STDLIB_COMMON));
+                dependences.add(new Dependence("kotlin-stdlib-jdk7-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB_JDK7, DependenceData.MD5.KOTLIN_STDLIB_JDK7));
+                dependences.add(new Dependence("kotlin-stdlib-jdk8-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB_JDK8, DependenceData.MD5.KOTLIN_STDLIB_JDK8));
             }
 
             for (Dependence dependence : dependences) {

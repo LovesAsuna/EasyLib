@@ -3,8 +3,19 @@ package org.sct.easylib.data;
 import lombok.Getter;
 
 public interface DependenceData {
+    String data = "";
 
-    enum MD5 implements DependenceData {
+    interface DependenceMD5 extends DependenceData {}
+
+    interface DependenceUrl extends DependenceData {
+        public String getData();
+    }
+
+    interface MavenUrl extends DependenceUrl {}
+
+    interface LanzousUrl extends DependenceUrl {}
+
+    enum MD5 implements DependenceMD5 {
         JACKSON_ANNOTATIONS("20368d1f52e031381a510cd1ce6ea2b7"),
         JACKSON_CORE("8f84e33a1c06b8fd16b4166b9fc8331b"),
         JACKSON_DATABIND("f96c78787ea2830e8dfd3a5a66c4f664"),
@@ -13,7 +24,7 @@ public interface DependenceData {
         KOTLIN_STDLIB_COMMON("9c36600bc1179cd6b79a9eb51fefb238"),
         KOTLIN_STDLIB_JDK7("ec6da201a772809331172ed63ec0f3c0"),
         KOTLIN_STDLIB_JDK8("60ea8ff676c976e622f9ae14eac1751");
-        
+
         @Getter
         String data;
 
@@ -21,8 +32,8 @@ public interface DependenceData {
             this.data = data;
         }
     }
-    
-    enum URL implements DependenceData {
+
+    enum Maven implements MavenUrl {
         JACKSON_DATABIND("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar"),
         JACKSON_CORE("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar"),
         JACKSON_ANNOTATIONS("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar"),
@@ -35,9 +46,9 @@ public interface DependenceData {
         @Getter
         String data;
 
-        URL(String data) {
+        Maven(String data) {
             this.data = data;
         }
     }
-    
+
 }
