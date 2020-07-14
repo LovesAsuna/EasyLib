@@ -101,7 +101,7 @@ public class Dependence {
     private static void download(AtomicReference<HttpURLConnection> conn, File file) {
         try {
             conn.get().connect();
-            DownloadUtil.download(conn.get(), file);
+            DownloadUtil.download(conn.get(), file, null);
             sendDownloadCompleteMessage(file.getName());
         } catch (IOException e) {
             StackTrace.printStackTrace(e);
