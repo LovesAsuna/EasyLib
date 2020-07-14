@@ -124,7 +124,7 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
         Bukkit.getScheduler().runTaskAsynchronously(EasyLib.getInstance(), () -> {
             String savePath = instance.getDataFolder().getPath() + "\\update";
             String fileName = pluginName + ".jar";
-            DownloadUtil.download("https://github.com/" + author + "/" + pluginName + "/releases/download/" + LibData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", fileName, savePath);
+            DownloadUtil.download("https://github.com/" + author + "/" + pluginName + "/releases/download/" + LibData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", fileName, savePath, null);
             sender.sendMessage("§7[§e" + pluginName + "§7]§2文件下载成功，已保存在" + savePath + File.separator + fileName);
             return;
         });
