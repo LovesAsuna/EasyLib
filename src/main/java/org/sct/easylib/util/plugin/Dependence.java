@@ -6,15 +6,13 @@ import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.sct.easylib.EasyLib;
 import org.sct.easylib.EasyLibAPI;
-import org.sct.easylib.data.LibData;
 import org.sct.easylib.data.DependenceData;
+import org.sct.easylib.data.LibData;
 import org.sct.easylib.util.BasicUtil;
 import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -166,16 +164,13 @@ public class Dependence {
                 }
             }
 
-            Method addURL = null;
-            try {
-                addURL = Class.forName("java.net.URLClassLoader").getDeclaredMethod("addURL", URL.class);
-                addURL.setAccessible(true);
-                for (Dependence dependence : dependences) {
-                    addURL.invoke(EasyLib.class.getClassLoader(), dependence.getFileURL());
-                    sendLoadMessage(dependence.getFileName());
+            for (Dependence dependence : dependences) {
+                try {
+                    Agent.addToClassPath(Paths.get(dependence.getFileURL().toURI()));
+                } catch (Exception e) {
+                    StackTrace.printStackTrace(e);
                 }
-            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                StackTrace.printStackTrace(e);
+                sendLoadMessage(dependence.getFileName());
             }
 
             LibData.setObjectMapper(new ObjectMapper());
