@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
+import org.sct.easylib.EasyLib;
 import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.lang.reflect.Field;
@@ -239,17 +240,25 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
     @Override
     public void respawn(Player player) {
         try {
-            Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object) null);
+            Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object)null);
             Object var3 = var2.getClass().getMethod("getPlayerList").invoke(var2);
-            if (VersionChecker.Version.isCurrentEqualOrHigher(VersionChecker.Version.v1_13_R1)) {
+            if (VersionChecker.Version.isCurrentEqualOrHigher(VersionChecker.Version.v1_16_R1)) {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(EasyLib.getInstance(), () -> {
+                    try {
+                        Object var3x = this.getCraftWorld(player.getWorld()).getClass().getMethod("getHandle").invoke(this.getCraftWorld(player.getWorld()));
+                        var3.getClass().getMethod("moveToWorld", this.getPlayerHandle(player).getClass(), this.WorldServerClass, Boolean.TYPE, player.getLocation().getClass(), Boolean.TYPE).invoke(var3, this.getPlayerHandle(player), var3x, false, null, false);
+                    } catch (Throwable var4) {
+                        var4.printStackTrace();
+                    }
+
+                }, 1L);
+            } else if (VersionChecker.Version.isCurrentEqualOrHigher(VersionChecker.Version.v1_13_R1)) {
                 Object var4 = this.getDimensionManager(player.getWorld());
-                System.out.println(var4);
                 var3.getClass().getMethod("moveToWorld", this.getPlayerHandle(player).getClass(), this.dimensionManager, Boolean.TYPE).invoke(var3, this.getPlayerHandle(player), var4, false);
-                System.out.println("调用");
             } else {
                 var3.getClass().getMethod("moveToWorld", this.getPlayerHandle(player).getClass(), Integer.TYPE, Boolean.TYPE).invoke(var3, this.getPlayerHandle(player), 0, false);
             }
-        } catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | IllegalAccessException e) {
+        } catch (Throwable e) {
             StackTrace.printStackTrace(e);
         }
 
