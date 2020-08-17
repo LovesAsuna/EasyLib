@@ -22,7 +22,7 @@ import java.util.Base64;
 public class GitHub implements org.sct.easylib.api.GitHubAPI {
     @Override
     public String getAPI(String author, String repos) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         String line;
 
         try {
@@ -32,18 +32,18 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             while ((line = reader.readLine()) != null) {
-                buffer.append(line);
+                builder.append(line);
             }
         } catch (IOException | NullPointerException e) {
             Bukkit.getConsoleSender().sendMessage("§7[§e" + repos + "§7]§c获取API时发生错误");
             return null;
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     @Override
     public String getRelease(String author, String repos, String auth) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         String line;
         EasyLib.getInstance().getServer().getConsoleSender().sendMessage(String.format("§7[§e%s§7] §cThere was an issue attempting to check for the latest version.", repos));
 
@@ -54,13 +54,13 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "GBK"));
             while ((line = reader.readLine()) != null) {
-                buffer.append(line);
+                builder.append(line);
             }
         } catch (IOException | NullPointerException e) {
             Bukkit.getConsoleSender().sendMessage("§7[§e" + repos + "§7]§c获取Release时发生错误");
             return null;
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     private String getReleaseInfo(String author, String repos, String path, String auth) {
@@ -91,7 +91,7 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
     }
 
     private InputStream getInputStream(String urlString, String auth) {
-        HttpURLConnection conn = null;
+        HttpURLConnection conn;
         try {
             URL url = new URL(urlString);
             conn = (HttpURLConnection) url.openConnection();
@@ -109,7 +109,7 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
     }
 
     @Override
-    public void getUpdateDetail(CommandSender sender, JavaPlugin instance, String author, String auth) throws IOException {
+    public void getUpdateDetail(CommandSender sender, JavaPlugin instance, String author, String auth) {
         String pluginName = instance.getDescription().getName();
 
         String detail = getReleaseDetail(author, pluginName, auth).replaceAll("\\r", "\\n");
@@ -126,7 +126,6 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
             String fileName = pluginName + ".jar";
             DownloadUtil.download("https://github.com/" + author + "/" + pluginName + "/releases/download/" + LibData.getNewestversion().get(instance.getName()) + "/" + pluginName + ".jar", fileName, savePath, null);
             sender.sendMessage("§7[§e" + pluginName + "§7]§2文件下载成功，已保存在" + savePath + File.separator + fileName);
-            return;
         });
         return true;
     }
