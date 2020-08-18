@@ -35,7 +35,9 @@ public class Dependence {
     @Getter
     private final String fileName;
     @Getter
-    private final String url;
+    private final URL url;
+    @Getter
+    private AtomicReference<HttpURLConnection> conn;
     @Getter
     private boolean finish = false;
     @Getter
@@ -53,10 +55,9 @@ public class Dependence {
     public Dependence(String fileName, DependenceData.DependenceUrl url, DependenceData.MD5 MD5) {
         this.fileName = fileName;
         this.MD5 = MD5.getData();
-        this.url = url.getData();
+        this.url = new URL(url.getData());
         fileURL = new File(depenDir.getPath() + File.separator + fileName).toURI().toURL();
     }
-
 
     public static void download(Dependence dependence) {
         pool.submit(() -> {
@@ -68,27 +69,19 @@ public class Dependence {
                 }
             }
 
-
-            AtomicReference<HttpURLConnection> conn = new AtomicReference<>();
-            try {
-                URL url = new URL(dependence.getUrl());
-                conn.set((HttpURLConnection) url.openConnection());
-            } catch (IOException e) {
-                StackTrace.printStackTrace(e);
-            }
             File dependenceFile = new File(EasyLib.getInstance().getDataFolder() + File.separator + "Dependencies" + File.separator + dependence.getFileName());
 
             /*文件不存在*/
             if (!dependenceFile.exists()) {
                 sendLackMessage(dependence.getFileName());
-                download(conn, dependenceFile);
+                download(dependence.conn, dependenceFile);
                 dependence.finish = true;
             } else {
                 /*文件存在*/
                 if (!dependence.getMD5().equals(BasicUtil.getFileMD5(dependenceFile))) {
                     /*MD5不匹配*/
                     sendInCompleteMessage(dependence.getFileName());
-                    download(conn, dependenceFile);
+                    download(dependence.conn, dependenceFile);
                 }
                 dependence.finish = true;
             }
@@ -96,9 +89,18 @@ public class Dependence {
         });
     }
 
+    private static void getResource(Dependence dependence) {
+        try {
+            dependence.conn = new AtomicReference<>();
+            dependence.conn.set((HttpURLConnection) dependence.url.openConnection());
+            dependence.conn.get().connect();
+        } catch (IOException e) {
+            StackTrace.printStackTrace(e);
+        }
+    }
+
     private static void download(AtomicReference<HttpURLConnection> conn, File file) {
         try {
-            conn.get().connect();
             DownloadUtil.download(conn.get(), file, null);
             sendDownloadCompleteMessage(file.getName());
         } catch (IOException e) {
@@ -147,7 +149,11 @@ public class Dependence {
             }
 
             for (Dependence dependence : dependences) {
-                Dependence.download(dependence);
+                getResource(dependence);
+            }
+
+            for (Dependence dependence : dependences) {
+                download(dependence);
             }
 
 
