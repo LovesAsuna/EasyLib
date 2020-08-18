@@ -84,11 +84,13 @@ public class Dependence {
 
         /*文件不存在*/
         if (!dependenceFile.exists()) {
+            sendLackMessage(dependence.fileName);
             dependence.needDownload = true;
         } else {
             /*文件存在*/
             if (!dependence.getMD5().equals(BasicUtil.getFileMD5(dependenceFile))) {
                 /*MD5不匹配*/
+                sendInCompleteMessage(dependence.fileName);
                 dependence.needDownload = true;
             }
         }
@@ -168,6 +170,7 @@ public class Dependence {
                 for (Dependence dependence : dependences) {
                     if (!dependence.isFinish()) {
                         finish = false;
+                        break;
                     }
                 }
 
