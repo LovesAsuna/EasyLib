@@ -1,7 +1,9 @@
 # Usage
-
-## Maven
-
+## Repository
+```
+https://jcenter.bintray.com/
+```
+### Maven
 ```xml
 <dependency>
 	<groupId>me.lovesasuna</groupId>
@@ -10,9 +12,7 @@
 	<type>pom</type>
 </dependency>
 ```
-
-## Gradle
-
+### Gradle
 ```
 implementation 'me.lovesasuna:easylib:2.4'
 ```
