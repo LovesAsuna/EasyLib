@@ -59,7 +59,7 @@ bintray {
         licenses = ['LPGL-3.0']
         vcsUrl = 'https://github.com/LovesAsuna/EasyLib.git'
         version {
-            name = version
+            name = project.version
             desc = 'Minecraft Plugin Dependency'
             released = new Date()
         }
