@@ -1,7 +1,6 @@
 package org.sct.easylib.util.function.database;
 
 import org.sct.easylib.api.DataBaseManager;
-import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.sql.*;
 
@@ -22,7 +21,7 @@ public class SQLiteUtil implements DataBaseManager {
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
         } catch (SQLException e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
     }
 

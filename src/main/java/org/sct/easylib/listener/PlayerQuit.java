@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.sct.easylib.util.function.stack.StackTrace;
 import org.sct.easylib.util.function.player.InvUtil;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class PlayerQuit implements Listener {
         try {
             InvUtil.store(player);
         } catch (IOException ex) {
-            StackTrace.printStackTrace(ex);
+            ex.printStackTrace();
         }
     }
 }

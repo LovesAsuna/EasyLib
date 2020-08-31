@@ -5,7 +5,6 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sct.easylib.EasyLib;
-import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +65,7 @@ public class FileUpdate {
                 deleteFile(originFile, savePath);
             }, 20L);
         } catch (IOException e) {
-            StackTrace.printStackTrace(e);
+             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage("§7[§eEasyLib§7]§c自动更新配置文件时出错!");
         }
     }

@@ -1,7 +1,6 @@
 package org.sct.easylib.util.reflectutil;
 
 import org.bukkit.Bukkit;
-import org.sct.easylib.util.function.stack.StackTrace;
 
 /**
  * @author icestar
@@ -43,13 +42,13 @@ public class VersionChecker {
             try {
                 var2 = Integer.parseInt(var3);
             } catch (Exception var10) {
-                StackTrace.printStackTrace(var10);
+                var10.printStackTrace();
             }
         } else {
             try {
                 var2 = Integer.parseInt(var1);
             } catch (Exception var9) {
-                StackTrace.printStackTrace(var9);
+                var9.printStackTrace();
             }
         }
 

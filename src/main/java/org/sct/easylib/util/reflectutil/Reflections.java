@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
 import org.sct.easylib.EasyLib;
-import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -45,7 +44,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
     private Class<?> CraftItemStack;
     private Class<?> Item;
     private Class<?> IStack;
-    public  Class<?> nmsChatSerializer;
+    public Class<?> nmsChatSerializer;
     private Class<?> dimensionManager;
     private Class<?> PacketPlayOutAnimation;
     private Class<?> CraftContainer;
@@ -60,13 +59,13 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
         try {
             this.CraftServerClass = getBukkitClass("CraftServer");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.CraftWorldClass = getBukkitClass("CraftWorld");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
@@ -92,7 +91,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
         try {
             this.PacketPlayOutOpenWindow = this.getMinecraftClass("PacketPlayOutOpenWindow");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
@@ -113,13 +112,13 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
         try {
             this.CraftServer = this.CraftServerClass.cast(Bukkit.getServer());
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.MinecraftServerClass = this.getMinecraftClass("MinecraftServer");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
@@ -129,37 +128,37 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
                 nmsChatSerializer = this.getMinecraftClass("IChatBaseComponent$ChatSerializer");
             }
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.MinecraftServer = this.CraftServer.getClass().getMethod("getServer").invoke(this.CraftServer);
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.CraftStatistic = getBukkitClass("CraftStatistic");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.Statistics = this.getMinecraftClass("Statistic");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.ServerStatisticManager = this.getMinecraftClass("ServerStatisticManager");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.PropertyManagerClass = this.getMinecraftClass("PropertyManager");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
@@ -175,13 +174,13 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
         try {
             this.CraftPlayer = getBukkitClass("entity.CraftPlayer");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.CraftEntity = getBukkitClass("entity.CraftEntity");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
@@ -193,26 +192,26 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
         try {
             this.NBTTagCompound = this.getMinecraftClass("NBTTagCompound");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.CraftItemStack = getBukkitClass("inventory.CraftItemStack");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.Item = this.getMinecraftClass("Item");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
         try {
             this.IStack = this.getMinecraftClass("ItemStack");
             this.EnumHand = this.getMinecraftClass("EnumHand");
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
     }
@@ -240,7 +239,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
     @Override
     public void respawn(Player player) {
         try {
-            Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object)null);
+            Object var2 = this.MinecraftServerClass.getDeclaredMethod("getServer").invoke((Object) null);
             Object var3 = var2.getClass().getMethod("getPlayerList").invoke(var2);
             if (VersionChecker.Version.isCurrentEqualOrHigher(VersionChecker.Version.v1_16_R1)) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(EasyLib.getInstance(), () -> {
@@ -259,7 +258,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
                 var3.getClass().getMethod("moveToWorld", this.getPlayerHandle(player).getClass(), Integer.TYPE, Boolean.TYPE).invoke(var3, this.getPlayerHandle(player), 0, false);
             }
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
     }
@@ -271,7 +270,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
         try {
             getHandle = player.getClass().getMethod("getHandle").invoke(player);
         } catch (Exception e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
         return getHandle;
     }
@@ -460,7 +459,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
                 var5.getClass().getMethod("sendPacket", this.getClass("{nms}.Packet")).invoke(var5, packet);
             }
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
     }
 
@@ -476,7 +475,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
                 var6.getClass().getMethod("sendPacket", this.getClass("{nms}.Packet")).invoke(var6, packet);
             }
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
 
     }
@@ -488,7 +487,7 @@ public class Reflections implements org.sct.easylib.api.ReflectAPI {
             String var3 = var1.replace("{nms}", "net.minecraft.server." + var2).replace("{nm}", "net.minecraft." + var2).replace("{cb}", "org.bukkit.craftbukkit.." + var2);
             return Class.forName(var3);
         } catch (Throwable e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
             return null;
         }
     }

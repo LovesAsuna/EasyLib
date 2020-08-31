@@ -6,7 +6,6 @@ import org.bukkit.inventory.ItemStack;
 import org.sct.easylib.EasyLib;
 import org.sct.easylib.EasyLibAPI;
 import org.sct.easylib.api.DataBaseManager;
-import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class InvUtil {
                 try {
                     dataBaseManager.store(getUUID(player), id, item);
                 } catch (SQLException e) {
-                    StackTrace.printStackTrace(e);
+                     e.printStackTrace();
                 }
             }
             return true;
@@ -51,7 +50,7 @@ public class InvUtil {
                 try {
                     dataBaseManager.update(getUUID(player), id, item);
                 } catch (SQLException e) {
-                    StackTrace.printStackTrace(e);
+                     e.printStackTrace();
                 }
             }
             return true;
