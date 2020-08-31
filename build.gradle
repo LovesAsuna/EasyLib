@@ -7,13 +7,8 @@ plugins {
 
 repositories {
     mavenCentral()
-
-    maven {
-        url 'https://repo.codemc.io/repository/nms/'
-    }
-
+    maven { url 'https://repo.codemc.io/repository/nms/' }
     jcenter()
-
     mavenLocal()
 }
 
@@ -28,7 +23,7 @@ dependencies {
 }
 
 group = 'org.sct'
-version = '2.4'
+version = '2.4.2'
 sourceCompatibility = '8'
 
 tasks.withType(JavaCompile) {
@@ -73,6 +68,7 @@ publishing {
         plugin(MavenPublication) {
             from components.java
             description 'Minecraft Plugin Dependency'
+            groupId = 'me.lovesasuna'
             pom {
                 developers {
                     developer {
