@@ -9,7 +9,6 @@ import org.sct.easylib.EasyLibAPI;
 import org.sct.easylib.data.DependenceData;
 import org.sct.easylib.data.LibData;
 import org.sct.easylib.util.BasicUtil;
-import org.sct.easylib.util.function.stack.StackTrace;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,9 +51,11 @@ public class Dependence {
         pool = new ThreadPoolExecutor(5, 5, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<>(5));
         depenDir = new File(EasyLib.getInstance().getDataFolder() + File.separator + "Dependencies");
         try {
-            Files.createDirectory(Paths.get(depenDir.getPath()));
+            if (!depenDir.exists()) {
+                Files.createDirectory(Paths.get(depenDir.getPath()));
+            }
         } catch (IOException e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
     }
 
@@ -78,8 +79,6 @@ public class Dependence {
     }
 
     private static void getResource(Dependence dependence) {
-        dependence.finish = false;
-
         File dependenceFile = getFile(dependence);
 
         /*文件不存在*/
@@ -101,7 +100,7 @@ public class Dependence {
                 dependence.conn.set((HttpURLConnection) dependence.url.openConnection());
                 dependence.conn.get().connect();
             } catch (IOException e) {
-                StackTrace.printStackTrace(e);
+                e.printStackTrace();
             }
         }
     }
@@ -111,7 +110,7 @@ public class Dependence {
             DownloadUtil.download(conn.get(), file, null);
             sendDownloadCompleteMessage(file.getName());
         } catch (IOException e) {
-            StackTrace.printStackTrace(e);
+            e.printStackTrace();
         }
     }
 
@@ -183,7 +182,7 @@ public class Dependence {
                 try {
                     Agent.addToClassPath(Paths.get(dependence.getFileURL().toURI()));
                 } catch (Exception e) {
-                    StackTrace.printStackTrace(e);
+                    e.printStackTrace();
                 }
                 sendLoadMessage(dependence.getFileName());
             }
