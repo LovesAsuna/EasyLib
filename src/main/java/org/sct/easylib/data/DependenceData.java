@@ -3,12 +3,16 @@ package org.sct.easylib.data;
 import lombok.Getter;
 
 public interface DependenceData {
-    String data = "";
 
     interface DependenceMD5 extends DependenceData {}
 
     interface DependenceUrl extends DependenceData {
-        public String getData();
+        /**
+         * 获取依赖url
+         *
+         * @return 数据
+         **/
+        String getData();
     }
 
     interface MavenUrl extends DependenceUrl {}
@@ -37,11 +41,11 @@ public interface DependenceData {
         JACKSON_DATABIND("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar"),
         JACKSON_CORE("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar"),
         JACKSON_ANNOTATIONS("https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar"),
-        KOTLIN_STDLIB("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/1.3.72/kotlin-stdlib-1.3.72.jar"),
+        KOTLIN_STDLIB("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/1.4.10/kotlin-stdlib-1.4.10.jar"),
         KOTLIN_STDLIB_ANNOTATIONS("https://repo1.maven.org/maven2/org/jetbrains/annotations/19.0.0/annotations-19.0.0.jar"),
-        KOTLIN_STDLIB_COMMON("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.3.72/kotlin-stdlib-common-1.3.72.jar"),
-        KOTLIN_STDLIB_JDK7("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.3.72/kotlin-stdlib-jdk7-1.3.72.jar"),
-        KOTLIN_STDLIB_JDK8("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.3.72/kotlin-stdlib-jdk8-1.3.72.jar");
+        KOTLIN_STDLIB_COMMON("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.4.10/kotlin-stdlib-common-1.4.10.jar"),
+        KOTLIN_STDLIB_JDK7("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.4.10/kotlin-stdlib-jdk7-1.4.10.jar"),
+        KOTLIN_STDLIB_JDK8("https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.4.10/kotlin-stdlib-jdk8-1.4.10.jar");
 
         @Getter
         String data;

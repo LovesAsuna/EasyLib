@@ -148,10 +148,10 @@ public class Dependence {
 
             if (EasyLib.getInstance().getConfig().getBoolean("Dependencies.Kotlin")) {
                 dependences.add(new Dependence("annotations-19.0.0.jar", DependenceData.Maven.KOTLIN_STDLIB_ANNOTATIONS, DependenceData.MD5.KOTLIN_STDLIB_ANNOTATIONS));
-                dependences.add(new Dependence("kotlin-stdlib-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB, DependenceData.MD5.KOTLIN_STDLIB));
-                dependences.add(new Dependence("kotlin-stdlib-common-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB_COMMON, DependenceData.MD5.KOTLIN_STDLIB_COMMON));
-                dependences.add(new Dependence("kotlin-stdlib-jdk7-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB_JDK7, DependenceData.MD5.KOTLIN_STDLIB_JDK7));
-                dependences.add(new Dependence("kotlin-stdlib-jdk8-1.3.72.jar", DependenceData.Maven.KOTLIN_STDLIB_JDK8, DependenceData.MD5.KOTLIN_STDLIB_JDK8));
+                dependences.add(new Dependence("kotlin-stdlib-1.4.10.jar", DependenceData.Maven.KOTLIN_STDLIB, DependenceData.MD5.KOTLIN_STDLIB));
+                dependences.add(new Dependence("kotlin-stdlib-common-1.4.10.jar", DependenceData.Maven.KOTLIN_STDLIB_COMMON, DependenceData.MD5.KOTLIN_STDLIB_COMMON));
+                dependences.add(new Dependence("kotlin-stdlib-jdk7-1.4.10.jar", DependenceData.Maven.KOTLIN_STDLIB_JDK7, DependenceData.MD5.KOTLIN_STDLIB_JDK7));
+                dependences.add(new Dependence("kotlin-stdlib-jdk8-1.4.10.jar", DependenceData.Maven.KOTLIN_STDLIB_JDK8, DependenceData.MD5.KOTLIN_STDLIB_JDK8));
             }
 
             for (Dependence dependence : dependences) {
