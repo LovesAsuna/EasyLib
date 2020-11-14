@@ -41,7 +41,8 @@ public class CommandHandler implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (this.cmd.equalsIgnoreCase(cmd.getName())) {
-            if (args.length == 0) {//如果命令没有参数
+            // 如果命令没有参数
+            if (args.length == 0) {
                 if (subCommandMap.containsKey("info")) {
                     subCommandMap.get("info").execute(sender, args);
                 }
@@ -49,7 +50,8 @@ public class CommandHandler implements TabExecutor {
             }
 
             SubCommand subCommand = subCommandMap.get(args[0]);
-            if (subCommand == null) {//如果参数不正确
+            // 如果参数不正确
+            if (subCommand == null) {
                 onCommandError(sender, args);
                 return true;
             }
