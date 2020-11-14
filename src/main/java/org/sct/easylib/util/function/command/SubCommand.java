@@ -4,6 +4,9 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Map;
 
+/**
+ * @author LovesAsuna
+ */
 public interface SubCommand {
     /**
      * 指令调用接口
