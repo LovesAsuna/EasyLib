@@ -8,9 +8,9 @@ public interface SubCommand {
     /**
      * 指令调用接口
      *
-     * @param sender
-     * @param args
-     * @return
+     * @param sender 命令发送者
+     * @param args 命令参数
+     * @return 命令是否调用成功
      */
     boolean execute(CommandSender sender, String[] args);
 
