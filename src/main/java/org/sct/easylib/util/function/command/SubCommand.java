@@ -15,8 +15,12 @@ public interface SubCommand {
     boolean execute(CommandSender sender, String[] args);
 
     /**
+     * 快速命令补全
+     *
      * @return map Integer为参数的位置(从1开始),String[]为该位置拥有的命令
      **/
-    Map<Integer, String[]> getParams();
+    default Map<Integer, String[]> getParams() {
+        return null;
+    }
 
 }
