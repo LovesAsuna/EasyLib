@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id "com.jfrog.bintray" version "1.8.5"
     id 'maven-publish'
 }
 
@@ -23,7 +22,7 @@ dependencies {
 }
 
 group = 'org.sct'
-version = '2.4.2'
+version = '2.4.3'
 sourceCompatibility = '8'
 
 tasks.withType(JavaCompile) {
@@ -35,29 +34,14 @@ tasks.withType(JavaCompile) {
 task copyFile(type: Copy, dependsOn: shadowJar) {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from('build/libs/')
-    into('E:/work/1.15.2test/plugins/')
+    into('E:/work/1.16.5test/plugins/')
     include('EasyLib*.jar')
     rename {
         "EasyLib.jar"
     }
 }
 
-bintray {
-    user = 'lovesasuna'
-    key = System.getenv("JcenterKey")
-    publications = ['plugin']
-    pkg {
-        repo = 'maven'
-        name = 'EasyLib'
-        licenses = ['LPGL-3.0']
-        vcsUrl = 'https://github.com/LovesAsuna/EasyLib.git'
-        version {
-            name = project.version
-            desc = 'Minecraft Plugin Dependency'
-            released = new Date()
-        }
-    }
-}
+
 
 java {
     withSourcesJar()
