@@ -2,7 +2,6 @@ package org.sct.easylib;
 
 import lombok.Getter;
 import org.sct.easylib.api.*;
-import org.sct.easylib.api.DataBaseManager;
 import org.sct.easylib.util.function.database.MysqlUtil;
 import org.sct.easylib.util.function.database.SQLiteUtil;
 import org.sct.easylib.util.function.econoomy.EcoUtil;
@@ -32,7 +31,16 @@ public class EasyLibAPI {
     @Getter
     private SerializerAPI serializerAPI;
 
-    public EasyLibAPI() {
+    private static EasyLibAPI api;
+
+    public static EasyLibAPI getAPI() {
+        if (api == null) {
+            api = new EasyLibAPI();
+        }
+        return api;
+    }
+
+    private EasyLibAPI() {
         reflectAPI = new Reflections();
         gitHubAPI = new GitHub();
         materialAPI = new MaterialUtil();
@@ -41,7 +49,7 @@ public class EasyLibAPI {
         serializerAPI = new BukkitObjectSerializerUtils();
     }
 
-    public DataBaseManager getDataBaseManager(dataBaseType type,String url) {
+    public DataBaseManager getDataBaseManager(dataBaseType type, String url) {
         if (type == dataBaseType.MYSQL) {
             return new MysqlUtil(url);
         } else if (type == dataBaseType.SQLITE) {

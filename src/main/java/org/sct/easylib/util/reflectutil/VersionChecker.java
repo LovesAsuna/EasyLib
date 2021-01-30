@@ -11,7 +11,7 @@ public class VersionChecker {
     private int resource = 3742;
     public static String s1 = "471830";
     public static String s2 = "3742";
-    public static String s3 = "36748798";
+    public static String s3 = "766629119";
 
     /**
      * @deprecated
@@ -55,6 +55,32 @@ public class VersionChecker {
         return var2;
     }
 
+    public String deconvertVersion(Integer var1) {
+        StringBuilder var2 = new StringBuilder();
+
+        for(String var3 = String.valueOf(var1); var3.length() > 0; var3 = var3.substring(0, var3.length() - 2)) {
+            boolean var4 = false;
+
+            try {
+                int var7;
+                if (var3.length() > 2) {
+                    var7 = Integer.parseInt(var3.substring(var3.length() - 2));
+                    var2.insert(0, "." + var7);
+                } else {
+                    var7 = Integer.parseInt(var3);
+                    var2.insert(0, var7);
+                }
+            } catch (Throwable var6) {
+            }
+
+            if (var3.length() <= 2) {
+                break;
+            }
+        }
+
+        return var2.toString();
+    }
+
     public static enum Version {
         v1_7_R1,
         v1_7_R2,
@@ -77,12 +103,23 @@ public class VersionChecker {
         v1_15_R2,
         v1_16_R1,
         v1_16_R2,
+        v1_16_R3,
         v1_17_R1,
-        v1_17_R2;
+        v1_17_R2,
+        v1_18_R1,
+        v1_18_R2,
+        v1_19_R1,
+        v1_19_R2,
+        v1_20_R1,
+        v1_20_R2;
 
         private Integer value;
         private String shortVersion;
         private static VersionChecker.Version current = null;
+
+        static {
+            getCurrent();
+        }
 
         private Version() {
             try {
@@ -159,7 +196,7 @@ public class VersionChecker {
         }
 
         public static boolean isCurrentEqual(VersionChecker.Version var0) {
-            return current.getValue() == var0.getValue();
+            return current.getValue().equals(var0.getValue());
         }
     }
 }

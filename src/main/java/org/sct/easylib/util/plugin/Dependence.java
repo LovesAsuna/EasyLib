@@ -188,7 +188,7 @@ public class Dependence {
             }
 
             LibData.setObjectMapper(new ObjectMapper());
-            EasyLib.setEasyLibAPI(new EasyLibAPI());
+            EasyLib.setEasyLibAPI(EasyLibAPI.getAPI());
         });
 
 
