@@ -27,11 +27,7 @@ public interface ReflectAPI {
 
     Object getNmsScoreboard(Scoreboard var1);
 
-    ItemStack setNbt(ItemStack itemStack, String string, String content);
-
-    Object getNBT(ItemStack itemStack, String string);
-
-    ItemStack removeNBT(ItemStack itemStack, String string);
+    Object getNbt(ItemStack itemStack, String string);
 
     void sendAllPacket(Object packet);
 

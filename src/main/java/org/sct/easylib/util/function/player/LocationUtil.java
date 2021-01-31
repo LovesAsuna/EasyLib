@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.sct.easylib.EasyLib;
 import org.sct.easylib.api.MaterialAPI;
 import org.sct.easylib.api.ReflectAPI;
 import org.sct.easylib.util.function.item.MaterialUtil;
@@ -33,7 +34,7 @@ public class LocationUtil implements org.sct.easylib.api.LocationAPI {
         HOLLOW_MATERIALS = Sets.newHashSet();
         TRANSPARENT_MATERIALS = Sets.newHashSet();
         materialAPI = new MaterialUtil();
-        reflectAPI = new Reflections();
+        reflectAPI = new Reflections(EasyLib.getInstance());
         WATER_TYPES = reflectAPI.getAllMatchingEnum(Material.class, new String[]{"WATER", "FLOWING_WATER"});
         ;
         Material[] var0 = Material.values();

@@ -2,6 +2,7 @@ package org.sct.easylib.util.function.item;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.sct.easylib.EasyLib;
 import org.sct.easylib.api.ReflectAPI;
 import org.sct.easylib.util.reflectutil.Reflections;
 
@@ -14,7 +15,7 @@ import java.util.Set;
  */
 
 public class MaterialUtil implements org.sct.easylib.api.MaterialAPI {
-    private static final ReflectAPI REFLECT_API = new Reflections();
+    private static final ReflectAPI REFLECT_API = new Reflections(EasyLib.getInstance());
     private static final Set<Material> BEDS = REFLECT_API.getAllMatchingEnum(Material.class, new String[]{"BED", "BED_BLOCK", "WHITE_BED", "ORANGE_BED", "MAGENTA_BED", "LIGHT_BLUE_BED", "YELLOW_BED", "LIME_BED", "PINK_BED", "GRAY_BED", "LIGHT_GRAY_BED", "CYAN_BED", "PURPLE_BED", "BLUE_BED", "BROWN_BED", "GREEN_BED", "RED_BED", "BLACK_BED"});
     private static final Set<Material> BANNERS = REFLECT_API.getAllMatchingEnum(Material.class, new String[]{"BANNER", "WHITE_BANNER", "ORANGE_BANNER", "MAGENTA_BANNER", "LIGHT_BLUE_BANNER", "YELLOW_BANNER", "LIME_BANNER", "PINK_BANNER", "GRAY_BANNER", "LIGHT_GRAY_BANNER", "CYAN_BANNER", "PURPLE_BANNER", "BLUE_BANNER", "BROWN_BANNER", "GREEN_BANNER", "RED_BANNER", "BLACK_BANNER", "SHIELD"});
     private static final Set<Material> FIREWORKS = REFLECT_API.getAllMatchingEnum(Material.class, new String[]{"FIREWORK", "FIREWORK_ROCKET", "FIREWORK_CHARGE", "FIREWORK_STAR"});

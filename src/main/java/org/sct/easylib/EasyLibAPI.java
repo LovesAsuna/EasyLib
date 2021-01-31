@@ -41,7 +41,7 @@ public class EasyLibAPI {
     }
 
     private EasyLibAPI() {
-        reflectAPI = new Reflections();
+        reflectAPI = new Reflections(EasyLib.getInstance());
         gitHubAPI = new GitHub();
         materialAPI = new MaterialUtil();
         locationAPI = new LocationUtil();
