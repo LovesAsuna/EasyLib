@@ -1,32 +1,29 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'org.jetbrains.dokka' version '1.4.30'
     id 'maven-publish'
+    id 'signing'
 }
 
 repositories {
     mavenCentral()
     maven { url 'https://repo.codemc.io/repository/nms/' }
-    jcenter()
     mavenLocal()
-}
-
-ext {
-    workDir = 'E:/work/1.16.5test/plugins/'
 }
 
 defaultTasks("shadowjar")
 
 dependencies {
     compileOnly 'org.bukkit:craftbukkit:1.15.2-R0.1-SNAPSHOT'
-    compileOnly 'org.projectlombok:lombok:1.18.12'
+    implementation 'org.projectlombok:lombok:1.18.20'
     compileOnly 'org.sct.vault:VaultAPI:1.7'
-    compileOnly 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
-group = 'org.sct'
-version = '2.4.3'
+group = 'com.hyosakura'
+version = '1.0.0'
 sourceCompatibility = '8'
 
 tasks.withType(JavaCompile) {
@@ -35,14 +32,18 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add('-Xlint:unchecked')
 }
 
-task copyFile(type: Copy, dependsOn: shadowJar) {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    from('build/libs/')
-    into(workDir)
-    include('EasyLib*.jar')
-    rename {
-        "EasyLib.jar"
-    }
+task dokka(type: Jar, dependsOn: dokkaJavadoc) {
+    group = 'documentation'
+    classifier("javadoc")
+    from javadoc.destinationDir
+}
+
+dokkaJavadoc {
+    outputDirectory = javadoc.destinationDir
+}
+
+javadoc {
+    dependsOn('dokka')
 }
 
 java {
@@ -51,26 +52,48 @@ java {
 
 publishing {
     publications {
-        plugin(MavenPublication) {
+        mavenJava(MavenPublication) {
+            artifactId = 'easylib'
+            version = version
+            artifact dokka
             from components.java
-            description 'Minecraft Plugin Dependency'
-            groupId = 'me.lovesasuna'
+
             pom {
+                name = 'EasyLib'
+                description = 'Minecraft Plugin Dependency'
+                url = 'https://github.com/LovesAsuna/EasyLib'
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License v3.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
                 developers {
                     developer {
                         name = 'LovesAsuna'
-                    }
-                }
-                licenses {
-                    license {
-                        name = 'LGPL-3.0'
-                        url = 'https://github.com/LovesAsuna/EasyLib/raw/master/LICENSE'
+                        email = 'qq625924077@gmail.com'
                     }
                 }
                 scm {
+                    connection = 'scm:git:https://github.com/LovesAsuna/EasyLib'
+                    developerConnection = 'scm:git:https://github.com/LovesAsuna'
                     url = 'https://github.com/LovesAsuna/EasyLib'
                 }
             }
         }
     }
+    repositories {
+        maven {
+            name 'release'
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2'
+            credentials {
+                username = "${ossrhUsername}"
+                password = "${ossrhPassword}"
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }

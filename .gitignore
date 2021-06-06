@@ -30,3 +30,5 @@ src/test
 .idea
 build
 .gradle
+gradle.properties
+*.gpg

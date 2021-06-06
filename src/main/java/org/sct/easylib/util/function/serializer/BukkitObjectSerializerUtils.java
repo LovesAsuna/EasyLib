@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -166,8 +167,8 @@ public final class BukkitObjectSerializerUtils implements org.sct.easylib.api.Se
         C objects = null;
 
         try {
-            objects = classOfC.newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
+            objects = classOfC.getConstructor().newInstance();
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new IOException("Unable to instantiate collection.", e);
         }
 

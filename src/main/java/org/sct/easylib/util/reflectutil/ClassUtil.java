@@ -37,7 +37,7 @@ public class ClassUtil {
     public static Object getInstance(String path, String instanceName) {
         Class<?> c = getInstanceClass(path, instanceName);
         try {
-            return c.newInstance();
+            return c.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
