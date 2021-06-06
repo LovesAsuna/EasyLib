@@ -57,7 +57,7 @@ public class GitHub implements org.sct.easylib.api.GitHubAPI {
                 builder.append(line);
             }
         } catch (IOException | NullPointerException e) {
-            Bukkit.getConsoleSender().sendMessage("§7[§e" + repos + "§7]§c获取Release时发生错误");
+            Bukkit.getConsoleSender().sendMessage("§7[§e" + repos + "§7] §c获取Release时发生错误");
             return null;
         }
         return builder.toString();
